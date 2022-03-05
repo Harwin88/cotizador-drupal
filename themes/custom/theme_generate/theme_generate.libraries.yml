@@ -1,7 +1,7 @@
 global-styling:
   css:
     component:
-      css/style.css: { attributes: { preload: true }, preprocess: false, minified: true }
+     # css/style.css: { attributes: { preload: true }, preprocess: false, minified: true }
       assets/css/style.css: { attributes: { preload: true }, preprocess: false, minified: true }
   
   js:

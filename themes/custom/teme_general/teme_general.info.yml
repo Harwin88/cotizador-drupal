@@ -1,0 +1,9 @@
+name: 'Guías de viajes y aventuras  Theme'
+type: theme
+base theme: bartik
+description: 'viajamdo por el mundo'
+package: tema para sitios de guias turisticos
+core: 8.x
+core_version_requirement: ^8 || ^9|| ^10
+libraries:
+  - teme_general/global-styling

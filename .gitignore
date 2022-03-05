@@ -21,20 +21,7 @@
 # sites/*/settings*.php
 sites/*/services*.yml
 /node_modules/
-package-lock.json
-.csslintrc
-.editorconfig
-.eslintignore
-.eslintrc.json
-.gitattributes
-.ht.router.php
-.htaccess
-INSTALL.txt
-autoload.php
-composer.lock
-robots.txt
-update.php
-web.config
+
 # Ignore paths that contain user-generated content.
 sites/*/files
 sites/*/private

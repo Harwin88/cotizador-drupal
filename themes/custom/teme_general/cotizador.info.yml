@@ -1,9 +1,0 @@
-name: 'General Theme'
-type: theme
-base theme: bartik
-description: 'cotizador'
-package: Theme General
-core: 8.x
-core_version_requirement: ^8 || ^9|| ^10
-libraries:
-  - guias_theme/global-styling

@@ -1,0 +1,28 @@
+@import "vars";
+
+body {
+    background-color: $def-background-color;
+    color: $def-foreground-color;
+}
+
+button {
+    background-color: $def-background-color;
+    color: $def-foreground-color;
+    border-radius: $def-border-radius;
+}
+
+@mixin setBackgroundForeground () {
+    background-color: $def-background-color;
+    color: $def-foreground-color;
+    border-radius: $def-border-squa;
+}
+
+h1,
+h2 {
+    @include setBackgroundForeground ();
+}
+
+
+input {
+    @include setBackgroundForeground;
+}

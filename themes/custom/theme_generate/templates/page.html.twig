@@ -22,18 +22,15 @@
 
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center ">
-    <div class="container d-flex align-items-center justify-content-between">
-    {% if site_name %}
-        <div class="site-branding__name">
-          <a href="{{ path('<front>') }}" rel="home">{{ site_name }}</a>
-        </div>
-      {% endif %}
-      
-{{ page.header }}
+    <div class="container d-flex align-items-center justify-content-between"
+      {{ page.header }}</h1>
+        
+        {{ page.secondary_menu }}
+        {{ page.breadcrumb }}
+        {{ page.highlighted }}
+        {{ page.help }}
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href=index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-{{ page.primary_menu }}
-
     </div>
   </header><!-- End Header -->
 

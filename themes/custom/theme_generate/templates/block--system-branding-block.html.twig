@@ -15,21 +15,21 @@
 #}
 {% set attributes = attributes.addClass('site-branding') %}
 {% block content %}
- <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />
+ {#<img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />
   {% if site_logo %}
     <a href="{{ path('<front>') }}" rel="home" class="site-branding__logo">
       <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />
     </a>
-  {% endif %}
+  {% endif %}#}
   {% if site_name or site_slogan %}
     <div class="site-branding__text">
       {% if site_name %}
-        <div class="site-branding__name">
+         <h1 class="logo"> 
           <a href="{{ path('<front>') }}" rel="home">{{ site_name }}</a>
-        </div>
+        </h1>
       {% endif %}
       {% if site_slogan %}
-        <div class="site-branding__slogan">{{ site_slogan }}</div>
+       <p class="animate__animated animate__fadeInUp"> {{ site_slogan }}</p>
       {% endif %}
     </div>
   {% endif %}

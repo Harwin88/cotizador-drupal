@@ -1,0 +1,22 @@
+uuid: adb8d55b-2583-4860-bc5b-d4cb8ceab753
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - teme_general
+_core:
+  default_config_hash: I6Esh8cDlPdl2POZg4MOSRUrQNYA1UNCJCxL2yqT_wc
+id: teme_general_powered
+theme: teme_general
+region: sidebar_first
+weight: 10
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

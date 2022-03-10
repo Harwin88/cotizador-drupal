@@ -1,0 +1,22 @@
+uuid: cef663b4-7b1d-4ba4-850e-a431c961dab7
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - teme_general
+_core:
+  default_config_hash: kigu8pTxXt1qGR2NJ5HHdC4G2G1wsDrIjLPKBT5wUBc
+id: teme_general_content
+theme: teme_general
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

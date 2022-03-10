@@ -1,0 +1,19 @@
+uuid: 3e222ead-1a97-406a-bfc6-bccd278edfbe
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.comunicaciones_header
+    - field.storage.block_content.field_enlace_de_formulario
+id: block_content.comunicaciones_header.field_enlace_de_formulario
+field_name: field_enlace_de_formulario
+entity_type: block_content
+bundle: comunicaciones_header
+label: 'enlace de formulario'
+description: 'en lace de la promocion'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

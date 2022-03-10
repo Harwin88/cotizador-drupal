@@ -1,0 +1,19 @@
+uuid: b9f0cbf5-819f-4ffb-ac8d-055d8ad29e94
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - link
+id: block_content.field_contactano_
+field_name: field_contactano_
+entity_type: block_content
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

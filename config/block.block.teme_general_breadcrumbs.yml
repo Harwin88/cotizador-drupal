@@ -1,0 +1,22 @@
+uuid: dd221294-b71c-458d-a561-7cf52bec8dd1
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - teme_general
+_core:
+  default_config_hash: y0bXRvKYQQKkf_RVxA3aOPGpIfKKsDOzzrWYCgjxJ9Y
+id: teme_general_breadcrumbs
+theme: teme_general
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

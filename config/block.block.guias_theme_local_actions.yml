@@ -1,0 +1,20 @@
+uuid: ea2e4da8-8b98-4ea4-a554-cb38bcd99f5a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - guias_theme
+_core:
+  default_config_hash: XRdb8LpbArVA6CpuuEZxzi50JIdjsJaCCZ5o3fH0Blk
+id: guias_theme_local_actions
+theme: guias_theme
+region: content
+weight: -20
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

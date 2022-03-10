@@ -1,0 +1,120 @@
+uuid: d812d915-a52b-4d92-9791-31ef7482fd04
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.comunicaciones_header
+    - field.field.block_content.comunicaciones_header.field_activar_informacion
+    - field.field.block_content.comunicaciones_header.field_celular
+    - field.field.block_content.comunicaciones_header.field_contactano_
+    - field.field.block_content.comunicaciones_header.field_enlace_btn
+    - field.field.block_content.comunicaciones_header.field_enlace_de_formulario
+    - field.field.block_content.comunicaciones_header.field_fondo_boton
+    - field.field.block_content.comunicaciones_header.field_porcentaje_descuento
+    - field.field.block_content.comunicaciones_header.field_promocion
+    - field.field.block_content.comunicaciones_header.field_texto_boton
+    - field.field.block_content.comunicaciones_header.field_texto_noton_redire
+    - field.field.block_content.comunicaciones_header.field_whatsapp
+  module:
+    - link
+id: block_content.comunicaciones_header.default
+targetEntityType: block_content
+bundle: comunicaciones_header
+mode: default
+content:
+  field_activar_informacion:
+    type: boolean_checkbox
+    weight: 33
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_celular:
+    type: string_textfield
+    weight: 31
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contactano_:
+    type: link_default
+    weight: 28
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_enlace_btn:
+    type: link_default
+    weight: 27
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_enlace_de_formulario:
+    type: string_textfield
+    weight: 36
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_fondo_boton:
+    type: string_textfield
+    weight: 30
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_porcentaje_descuento:
+    type: string_textfield
+    weight: 37
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_promocion:
+    type: string_textfield
+    weight: 34
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_texto_boton:
+    type: string_textfield
+    weight: 35
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_texto_noton_redire:
+    type: string_textfield
+    weight: 32
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_whatsapp:
+    type: link_default
+    weight: 29
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

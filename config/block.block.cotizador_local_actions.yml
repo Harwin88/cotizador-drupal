@@ -1,0 +1,20 @@
+uuid: fd96fa4d-0cea-47a9-b5f6-9d4953329fde
+langcode: en
+status: true
+dependencies:
+  theme:
+    - cotizador
+_core:
+  default_config_hash: XRdb8LpbArVA6CpuuEZxzi50JIdjsJaCCZ5o3fH0Blk
+id: cotizador_local_actions
+theme: cotizador
+region: content
+weight: -20
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

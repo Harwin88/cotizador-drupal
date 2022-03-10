@@ -1,0 +1,23 @@
+uuid: 808155e8-1515-4ad6-90bf-fae622bfb35d
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.comunicaciones_header
+    - field.storage.block_content.field_activar_informacion
+id: block_content.comunicaciones_header.field_activar_informacion
+field_name: field_activar_informacion
+entity_type: block_content
+bundle: comunicaciones_header
+label: 'Activar informacion'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'Activar Info'
+  off_label: 'desactivar Info'
+field_type: boolean

@@ -1,0 +1,22 @@
+uuid: bd383feb-059d-4440-9cee-0f5377036115
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - cotizador
+_core:
+  default_config_hash: KC12e0aosUnBBs5bd374JVcQjJaFNOSIHzu0dUGf22o
+id: cotizador_messages
+theme: cotizador
+region: highlighted
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

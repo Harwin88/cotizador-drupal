@@ -1,0 +1,22 @@
+uuid: 5fa7a19b-a007-412f-b81e-0efffa24d04c
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - cotizador
+_core:
+  default_config_hash: y0bXRvKYQQKkf_RVxA3aOPGpIfKKsDOzzrWYCgjxJ9Y
+id: cotizador_breadcrumbs
+theme: cotizador
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,8 @@
+uuid: 52316e41-c3f2-4012-bf54-046987f300e4
+langcode: en
+status: true
+dependencies: {  }
+id: comunicaciones_header
+label: comunicaciones-header
+revision: 0
+description: comunicaciones-header

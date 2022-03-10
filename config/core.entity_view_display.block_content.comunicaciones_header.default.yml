@@ -1,0 +1,127 @@
+uuid: e00b1013-fb69-4884-9ec8-b66389369641
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.comunicaciones_header
+    - field.field.block_content.comunicaciones_header.field_activar_informacion
+    - field.field.block_content.comunicaciones_header.field_celular
+    - field.field.block_content.comunicaciones_header.field_contactano_
+    - field.field.block_content.comunicaciones_header.field_enlace_btn
+    - field.field.block_content.comunicaciones_header.field_enlace_de_formulario
+    - field.field.block_content.comunicaciones_header.field_fondo_boton
+    - field.field.block_content.comunicaciones_header.field_porcentaje_descuento
+    - field.field.block_content.comunicaciones_header.field_promocion
+    - field.field.block_content.comunicaciones_header.field_texto_boton
+    - field.field.block_content.comunicaciones_header.field_texto_noton_redire
+    - field.field.block_content.comunicaciones_header.field_whatsapp
+  module:
+    - link
+id: block_content.comunicaciones_header.default
+targetEntityType: block_content
+bundle: comunicaciones_header
+mode: default
+content:
+  field_activar_informacion:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_celular:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_contactano_:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_enlace_btn:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_enlace_de_formulario:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_fondo_boton:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_porcentaje_descuento:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_promocion:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_texto_boton:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_texto_noton_redire:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_whatsapp:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden: {  }

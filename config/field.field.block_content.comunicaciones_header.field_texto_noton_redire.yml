@@ -1,0 +1,19 @@
+uuid: 1c28dab9-4253-44ad-884b-7f2d3f837dd2
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.comunicaciones_header
+    - field.storage.block_content.field_texto_noton_redire
+id: block_content.comunicaciones_header.field_texto_noton_redire
+field_name: field_texto_noton_redire
+entity_type: block_content
+bundle: comunicaciones_header
+label: Texto_boton_redire
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

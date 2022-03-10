@@ -1,0 +1,22 @@
+uuid: c24027df-1569-482f-8ef8-a98d38c1ca1a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - guias_theme
+_core:
+  default_config_hash: y0bXRvKYQQKkf_RVxA3aOPGpIfKKsDOzzrWYCgjxJ9Y
+id: guias_theme_breadcrumbs
+theme: guias_theme
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

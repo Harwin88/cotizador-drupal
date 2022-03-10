@@ -1,0 +1,22 @@
+uuid: 3bf2f5a4-3726-4ba9-adff-6d80d108c06a
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - guias_theme
+_core:
+  default_config_hash: '-laWx8WA-ikiIEH3NJQ0hVbjqk3iEuBms91LB0B4IQU'
+id: guias_theme_help
+theme: guias_theme
+region: content
+weight: -30
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

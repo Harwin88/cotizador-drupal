@@ -1,0 +1,20 @@
+uuid: b36d9bb1-f52e-4f83-b572-270ce869dea2
+langcode: en
+status: true
+dependencies:
+  theme:
+    - teme_general
+_core:
+  default_config_hash: ItFhhiUOoeR7oIq73ZaCV7PAYrOwXZ-9fazMzF5DJXM
+id: teme_general_page_title
+theme: teme_general
+region: content
+weight: -50
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

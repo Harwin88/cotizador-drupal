@@ -1,0 +1,23 @@
+uuid: 94c76725-c0db-4e93-be6e-e75060267ec7
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - theme_generate
+id: sitebranding
+theme: theme_generate
+region: header
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: true
+visibility: {  }

@@ -1,0 +1,19 @@
+uuid: a1a1eaea-af80-4894-a0ea-5f5c9b0ce71f
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - link
+id: block_content.field_whatsapp
+field_name: field_whatsapp
+entity_type: block_content
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

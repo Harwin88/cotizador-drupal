@@ -1,0 +1,22 @@
+uuid: 09048fef-2035-4d8c-8a50-f4da452bcb4a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - cotizador
+_core:
+  default_config_hash: Qf2BoIzd9py5AYXZj8fJzCYDyVk1-AWXcu-AqQeDZKA
+id: cotizador_local_tasks
+theme: cotizador
+region: content
+weight: -40
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

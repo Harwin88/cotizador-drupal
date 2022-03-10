@@ -1,0 +1,20 @@
+uuid: e7f52321-85f5-4bc3-ab36-7f6cd62ed7f3
+langcode: en
+status: true
+dependencies:
+  theme:
+    - cotizador
+_core:
+  default_config_hash: ItFhhiUOoeR7oIq73ZaCV7PAYrOwXZ-9fazMzF5DJXM
+id: cotizador_page_title
+theme: cotizador
+region: content
+weight: -50
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

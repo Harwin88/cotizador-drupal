@@ -1,0 +1,22 @@
+uuid: 4da99f8d-5ad4-48ef-b8e5-ae983b8c91dd
+langcode: en
+status: true
+dependencies:
+  theme:
+    - guias_theme
+_core:
+  default_config_hash: Qf2BoIzd9py5AYXZj8fJzCYDyVk1-AWXcu-AqQeDZKA
+id: guias_theme_local_tasks
+theme: guias_theme
+region: content
+weight: -40
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

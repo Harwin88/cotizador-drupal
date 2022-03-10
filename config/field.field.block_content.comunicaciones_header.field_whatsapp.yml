@@ -1,0 +1,23 @@
+uuid: 0ff93cda-88c5-4822-ab97-b77818e30f32
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.comunicaciones_header
+    - field.storage.block_content.field_whatsapp
+  module:
+    - link
+id: block_content.comunicaciones_header.field_whatsapp
+field_name: field_whatsapp
+entity_type: block_content
+bundle: comunicaciones_header
+label: whatsApp
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

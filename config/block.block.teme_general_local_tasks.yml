@@ -1,0 +1,22 @@
+uuid: f66fa77a-f9bd-40c5-bfff-d24ad523c888
+langcode: en
+status: true
+dependencies:
+  theme:
+    - teme_general
+_core:
+  default_config_hash: Qf2BoIzd9py5AYXZj8fJzCYDyVk1-AWXcu-AqQeDZKA
+id: teme_general_local_tasks
+theme: teme_general
+region: content
+weight: -40
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

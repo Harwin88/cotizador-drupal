@@ -1,0 +1,21 @@
+uuid: 80fa82d5-14b5-400f-b09d-eccaca40bcf7
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content.field_enlace_de_formulario
+field_name: field_enlace_de_formulario
+entity_type: block_content
+type: string
+settings:
+  max_length: 130
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

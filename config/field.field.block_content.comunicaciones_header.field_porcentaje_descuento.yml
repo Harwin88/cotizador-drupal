@@ -1,0 +1,19 @@
+uuid: ba3f070b-eaec-45db-8153-469958536c48
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.comunicaciones_header
+    - field.storage.block_content.field_porcentaje_descuento
+id: block_content.comunicaciones_header.field_porcentaje_descuento
+field_name: field_porcentaje_descuento
+entity_type: block_content
+bundle: comunicaciones_header
+label: 'porcentaje descuento'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,20 +1,13 @@
-<!-- ======= Top Bar 
+
   <div id="topbar" class="fixed-top d-flex align-items-center ">
     <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
-        <i class="bi bi-envelope-fill"></i><a href="mailto:info@electro-distribuciones.com">info@distribuciones.com</a>
-        <i class="bi bi-phone-fill phone-icon"></i> +57 3126701425
+        <i class="bi bi-envelope-fill"></i>{{ content.field_enlace_btn }}
+        <i class="bi bi-phone-fill phone-icon"></i> {{ content.field_celular[0]["#context"]["value"] }}
+        <i class="bi bi-whatsapp phone-icon"></i> {{ content.field_whatsapp[0] }}
       </div>
       <div class="cta d-none d-md-block">
-        <a href="#about" class="scrollto">Trabaja Con Nosotros</a>
+        <a class="scrollto animate__animated animate" {{ attributes.setAttribute('style',  'background:'  ~  content.field_fondo_boton[0]["#context"]["value"]) }}>{{ content.field_texto_noton_redire[0]["#context"]["value"] }}</a>
       </div>
     </div>
-  </div>======= -->
-
- {{ book-comunicacio }}
- 
-{% for book in book_comunicacio %}
-  {#<nav id="book-block-menu-{{ book.id }}" class="book-block-menu" role="navigation" aria-label="{% trans %}Book outline for {{ book.title }}{% endtrans %}">#}
-    {{ book_comunicacio }}
-  {#</nav>#}
-{% endfor %}
+  </div>

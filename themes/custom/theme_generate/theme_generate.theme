@@ -1,0 +1,21 @@
+<?php
+/*function theme_generate_preprocess_block__comunicacio(&$variables) {
+    var_dump($variables);
+  
+  if ($variables['menu_name'] == 'main') {
+    $variables['attributes']->addClass('my-menu'); 
+  }
+}
+
+*/
+
+/**
+ * Implements hook_preprocess_HOOK() for block.html.twig.
+ */
+function theme_generate_preprocess_block(&$variables) {
+    // Add a clearfix class to system branding blocks.
+   
+    if ($variables['plugin_id'] == "block-comunicacio") {
+      $variables['attributes']['class'][] = 'clearfix';
+    }
+  }

@@ -10,8 +10,8 @@ dependencies:
     - theme_generate
 id: slider
 theme: theme_generate
-region: content
-weight: 1
+region: sidebar_second
+weight: -1
 provider: null
 plugin: 'block_content:13be1a6a-8e3e-4e66-8214-fcf855e1e54d'
 settings:

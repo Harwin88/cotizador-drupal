@@ -615,6 +615,15 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.carousel {
+  position: absolute !important;
+  margin-left: 15% !important;
+  width: 75% !important;
+  margin-right: 1% !important;
+  margin-top: 33% !important;
+  margin-bottom: 34% !important;
+  height: 168px !important;
+}
 /*--------------------------------------------------------------
 # Sections General
 --------------------------------------------------------------*/

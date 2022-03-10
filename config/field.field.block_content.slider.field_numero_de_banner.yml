@@ -1,0 +1,23 @@
+uuid: 6f1a2208-bb63-456c-9afb-7394ee6dfa95
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.slider
+    - field.storage.block_content.field_numero_de_banner
+id: block_content.slider.field_numero_de_banner
+field_name: field_numero_de_banner
+entity_type: block_content
+bundle: slider
+label: 'Numero de Banner'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

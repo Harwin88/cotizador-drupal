@@ -1,0 +1,30 @@
+{{ content.field_numero_de_banner }}
+<section id="hero" class="d-flex justify-cntent-center align-items-center">
+    <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
+
+        {% for i in 0..content.field_numero_de_banner[0]["#markup"] %}
+            {% if i == 0 %}
+              <div class="carousel-item active">
+                {% else %}
+                  <div class="carousel-item">
+                {% endif %}
+                {% if content.field_titulo[i] != NULL %}
+                <div class="carousel-container">
+                  <h2 class="animate__animated animate__fadeInDown">{{ content.field_titulo[i] }}</h2>
+                  <p class="animate__animated animate__fadeInUp">{{ content.body[i] }}</p>
+                  <a href={{ content.field_enlace_redired[i] }} class="btn-get-started animate__animated animate__fadeInUp scrollto">{{ content.field_texto_boton_slider[i] }}</a>
+                </div>
+                {{ content.field_imagen_slider[i] }}
+              </div>
+            {% endif %}
+        {% endfor %}
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
+          </a>
+    
+          <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon bx bx-chevron-right" aria-hidden="true"></span>
+          </a>
+    
+        </div>
+    </section>

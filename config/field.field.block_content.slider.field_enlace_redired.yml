@@ -1,0 +1,19 @@
+uuid: 9bb29cd6-0a41-49ae-a182-f59365d92d62
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.slider
+    - field.storage.block_content.field_enlace_redired
+id: block_content.slider.field_enlace_redired
+field_name: field_enlace_redired
+entity_type: block_content
+bundle: slider
+label: 'enlace redired'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: b6980f70-77b6-4ea5-aeba-9afa10520f89
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.slider
+    - field.storage.block_content.field_texto_boton_slider
+id: block_content.slider.field_texto_boton_slider
+field_name: field_texto_boton_slider
+entity_type: block_content
+bundle: slider
+label: 'texto boton'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

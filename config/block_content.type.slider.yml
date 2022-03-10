@@ -1,0 +1,8 @@
+uuid: 390eb34d-367c-465d-9c9c-73aa747d1e1d
+langcode: en
+status: true
+dependencies: {  }
+id: slider
+label: slider
+revision: 0
+description: 'carrusel de texto'

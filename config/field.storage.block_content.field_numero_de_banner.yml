@@ -1,0 +1,20 @@
+uuid: adf415df-32a3-4941-988b-12d0f3527f1d
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content.field_numero_de_banner
+field_name: field_numero_de_banner
+entity_type: block_content
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,4 +1,5 @@
-
+ 
+{% if content.field_activar_informacion[0]["#markup"] == "Activar Info" %}
   <div id="topbar" class="fixed-top d-flex align-items-center ">
     <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
@@ -11,3 +12,16 @@
       </div>
     </div>
   </div>
+  {% endif %}
+ 
+  {% if content.field_activar_informacion[0]["#markup"] ==  "desactivar Info"  %}
+ <!-- ======= Hero Section ======= -->
+ <div id="topbar" class="fixed-top d-flex align-items-center ">
+  <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
+  <div class="hero d-flex justify-cntent-center align-items-center">
+    <h1 class="animate__animated animate__fadeInUp scrollto">20% </h1><p class="animate__animated animate__fadeInUp scrollto" >Descuento del 20%  puedes partisipar ingresando con este boton Descuento del 20%  puedes partisipar ingresando con este boton</p>   <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">!Partisipa Ya¡</a>  <h1 class="animate__animated animate__fadeInUp scrollto">20% </h1>
+</div>
+  </div>
+</div>
+  {% endif %}
+ 

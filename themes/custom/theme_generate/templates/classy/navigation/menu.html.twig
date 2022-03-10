@@ -26,8 +26,6 @@
 #}
 
  
-
-
  <nav id="navbar" class="navbar">
        {{ menus.menu_links(items, attributes, 0) }}
        {% macro menu_links(items, attributes, menu_level) %}
@@ -43,11 +41,11 @@
        {%
           set classes = [
             'nav-link scrollto',
-          ]
+          ] 
         %}
 
-        <li>
-           {{ link(item.title, item.url,  attributes.addClass(classes)) }}
+        <li {{ attributes.addClass(classes)  }} >
+           {{ link(item.title, item.url) }}
           {% if item.below %}
             {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
           {% endif %}
@@ -85,5 +83,7 @@
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
         </ul>
   
-        <i class="bi bi-list mobile-nav-toggle"></i>#}
+      #}
+      <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
+    

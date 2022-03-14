@@ -21,3 +21,11 @@ input {
   color: #111111;
   border-radius: 34px;
 }
+
+.region-content {
+  background: aliceblue !important;
+  padding: 113px;
+  padding-left: 113px;
+  padding-left: 217px;
+  color: burlywood;
+}

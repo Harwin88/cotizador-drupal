@@ -2257,3 +2257,25 @@ section {
   text-decoration: none;
   cursor: pointer;
 }
+
+
+.region-content {
+  background: #fff;
+  padding: 113px;
+  padding-left: 113px;
+  padding-left: 217px;
+  color: #f6b024;
+}
+
+#edit-submit{
+  position: relative;
+  margin-left: 32%;
+  color: aliceblue;
+  background: #f6b024;
+  height: 53px;
+  width: 200px;
+}
+
+#about{
+  background: #cdcdcd;
+}

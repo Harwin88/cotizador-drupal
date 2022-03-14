@@ -312,3 +312,7 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+document.addEventListener("click", function(){
+  document.getElementsByClassName("btn-activa")[0].focus();
+});

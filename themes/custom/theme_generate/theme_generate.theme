@@ -1,4 +1,5 @@
 <?php
+use Drupal\productos\Controller\EventApiController;
 /*function theme_generate_preprocess_block__comunicacio(&$variables) {
     var_dump($variables);
   
@@ -12,3 +13,17 @@
 /**
  * Implements hook_preprocess_HOOK() for block.html.twig.
  */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function theme_generate_preprocess_block__catalogo(&$variables) {
+  $user_rol = \Drupal::currentUser()->getRoles();
+  $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
+    $city = !empty($request['city']) ? $request['city'] : NULL;
+    $brand = !empty($request['brand']) ? $request['brand'] : NULL;
+    $category = !empty($request['category']) ? $request['category'] : NULL;
+    $response = EventApiController::productsList($city, $brand, $category);
+    $variables['catalogo_obj'] = $response;
+    $variables['rol'] = $user_rol;
+}

@@ -2267,13 +2267,14 @@ section {
   color: #f6b024;
 }
 
-#edit-submit{
+#edit-submit, button{
   position: relative;
-  margin-left: 32%;
   color: aliceblue;
   background: #f6b024;
-  height: 53px;
-  width: 200px;
+  height: 35%;
+  width: 50%;
+  border-radius: 15px;
+  margin-top: 23px;
 }
 
 #about{

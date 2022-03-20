@@ -1,0 +1,6 @@
+productos.report.productos.userReportForm.excel:
+  route_name: productos.report.productos.userReportForm.excel
+  title: Download to excel
+  weight: 0
+  appears_on:
+    - productos.report.productos.userReportForm

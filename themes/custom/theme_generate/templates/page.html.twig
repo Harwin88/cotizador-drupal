@@ -9,23 +9,20 @@
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center ">
     <div class="container d-flex align-items-center justify-content-between"
-   
-  {{ page.header }}   
- 
+        {{ page.header }}   
         {{ page.secondary_menu }}
         {{ page.breadcrumb }}
         {{ page.highlighted }}
         {{ page.help }}
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href=index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
     </div>
   </header>
-
+  {% if path != "/Catalogos" %}
   <section id="hero" class="d-flex justify-cntent-center align-items-center">
     <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
+     
+  {{ page.sidebar_second }}
 
-    {{ page.sidebar_second }}
-    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+           <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
               <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
             </a>
 
@@ -35,13 +32,15 @@
 
           </div>
   </section>
+
+  {% endif %}
+  
 <main id="main">
 
  <!-- ======= Icon Boxes Section ======= -->
  <section id="about" class="about">
   <div class="container" data-aos="fade-up">
     {{ page.content }}
-
   </div>
 </section>
 

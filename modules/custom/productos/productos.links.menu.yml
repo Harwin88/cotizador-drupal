@@ -1,0 +1,34 @@
+productos.admin:
+  title: 'Creacion productos para canje'
+  description: 'create canje'
+  parent: system.admin_config_system
+  route_name: productos.admin.productos.config
+  weight: 101
+
+productos.settings_form:
+  title: configuracion descuentos puntos tapit
+  description: Configure.
+  parent: main
+  route_name: productos.settings_form
+  weight: 10
+
+productos.report.productos.userReportForm:
+  title: Events users report
+  description: Configure.
+  parent: main
+  route_name: productos.report.productos.userReportForm
+  weight: 201
+
+productos.banner_form:
+  title: crear banner para las diferentes marcas.
+  description: Configure.
+  parent: main
+  route_name: productos.banner_form
+  weight: 301
+
+productos.imposrt_files:
+  title: Importar archivo productos.
+  description: Configure.
+  parent: main
+  route_name: productos.imposrt_files
+  weight: 401

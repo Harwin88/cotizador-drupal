@@ -1,10 +1,9 @@
 global-styling:
   css:
     component:
-     # css/style.css: { attributes: { preload: true }, preprocess: false, minified: true }
-      https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i: {type: external}
-      assets/vendor/animate.css/animate.min.css: { attributes: { preload: true }, preprocess: false, minified: true }
       assets/vendor/aos/aos.css: { attributes: { preload: true }, preprocess: false, minified: true }
+      assets/vendor/animate.css/animate.min.css: { attributes: { preload: true }, preprocess: false, minified: true }
+      https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i: {type: external}
       assets/vendor/bootstrap/css/bootstrap.min.css: { attributes: { preload: true }, preprocess: false, minified: true }
       assets/vendor/bootstrap-icons/bootstrap-icons.css: { attributes: { preload: true }, preprocess: false, minified: true }
       assets/vendor/boxicons/css/boxicons.min.css: { attributes: { preload: true }, preprocess: false, minified: true }
@@ -22,3 +21,4 @@ global-styling:
    assets/vendor/php-email-form/validate.js: {}
    assets/js/main.js: {}
    js/foo.js: {}
+

@@ -2261,9 +2261,8 @@ section {
 
 .region-content {
   background: #fff;
-  padding: 113px;
-  padding-left: 113px;
-  padding-left: 217px;
+  padding: 45px;
+  padding-left: 45px;
   color: #f6b024;
 }
 
@@ -2279,4 +2278,24 @@ section {
 
 #about{
   background: #cdcdcd;
+}
+
+.category-menu{
+  -moz-box-pack: center;
+justify-content: center;
+-moz-box-align: center;
+align-items: center;
+flex-direction: column;
+border-radius: 8px;
+cursor: pointer;
+text-decoration: none;
+padding: 28px 0px;
+min-width: 104px;
+background-color: rgb(255, 255, 255);
+box-shadow: rgba(46, 44, 54, 0.02) 0px 10px 20px 0px;
+}
+
+.car-produ{
+  margin-right: 12px;
+  margin-bottom: 9px;
 }

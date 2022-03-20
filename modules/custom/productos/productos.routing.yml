@@ -1,0 +1,90 @@
+productos.admin.productos.config:
+  path: '/admin/config/event'
+  defaults:
+    _form: '\Drupal\productos\Form\ProductosForm'
+    _title: 'Products Management'
+  requirements:
+    _permission: 'access productos'
+
+productos.report.productos.userReportForm:
+  path: 'admin/reports/userReportForm'
+  defaults:
+    _form: '\Drupal\productos\Form\ReportRegisterForm'
+    _title: 'Events Report: Users'
+  requirements:
+    _permission: 'access productos'
+
+productos.report.productos.userReportForm.excel:
+  path: 'admin/reports/userReportForm/excel'
+  defaults:
+    _controller: '\Drupal\productos\Controller\EventApiController::reportRegisterFormExcel'
+    _title: 'Download excel'
+  requirements:
+    _permission: 'access productos'
+
+productos.export_user:
+  path: tap_it/report/export
+  defaults:
+    _controller: \Drupal\productos\Controller\EventApiController::dowloadReport
+    _title: 'Report'
+  requirements:
+     _permission: 'access productos'
+
+productos.unable_event:
+  path: /v1/unable_event
+  methods: [GET]
+  defaults:
+    _controller: \Drupal\productos\Controller\EventApiController::validateEventStatus
+    _title: 'Listado eventos'
+  requirements:
+    _access: 'TRUE'
+
+productos.lisnt:
+  path: /v1/list-event
+  methods: [GET]
+  defaults:
+    _controller: \Drupal\productos\Controller\EventApiController::llistEventos
+    _title: 'Listado eventos'
+  requirements:
+    _access: 'TRUE'
+
+productos.settings_form:
+  path: '/admin/config/system/ab-tapit-config'
+  defaults:
+    _title: 'AB Social config settings'
+    _form: 'Drupal\productos\Form\SettingsForm'
+  requirements:
+    _permission: 'access productos'
+
+productos.banner_form:
+  path: '/admin/banner/events'
+  defaults:
+    _title: 'Banner eventos'
+    _form: 'Drupal\productos\Form\BannerForm'
+  requirements:
+    _permission: 'access productos'
+
+productos.banner:
+  path: '/v1/list-banner'
+  methods: [GET]
+  defaults:
+    _controller: \Drupal\productos\Controller\EventApiController::endBanner
+    _title: 'Listado eventos'
+  requirements:
+    _access: 'TRUE'
+
+productos.imposrt_files:
+  path: '/admin/import_eventos'
+  defaults:
+    _title: 'Cargar masiva de Eventos'
+    _form: 'Drupal\productos\Form\CsvImportForm'
+  requirements:
+    _permission: 'cargar archivos excel o csv para eventos'
+
+productos.admin.products_import:
+  path: 'admin/config/event/products-import'
+  defaults:
+    _form: '\Drupal\productos\Form\ProductsImportForm'
+    _title: 'Products Import'
+  requirements:
+    _permission: 'access productos'

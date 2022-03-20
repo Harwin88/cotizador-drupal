@@ -24,6 +24,10 @@ function theme_generate_preprocess_block__catalogo(&$variables) {
     $brand = !empty($request['brand']) ? $request['brand'] : NULL;
     $category = !empty($request['category']) ? $request['category'] : NULL;
     $response = EventApiController::productsList($city, $brand, $category);
+    $variables['path'] = \Drupal::service('path.current')->getPath();
     $variables['catalogo_obj'] = $response;
-    $variables['rol'] = $user_rol;
+}
+
+function theme_generate_preprocess(&$variables) {
+  $variables['path'] = \Drupal::service('path.current')->getPath();
 }

@@ -1,0 +1,12 @@
+# Custom module library for general purposes.
+productos:
+  js:
+    #js/jquery-3.3.1.js: {}
+    #js/jszip.js: {}
+    #js/FileSaver.js: {}
+    #js/excel-gen.js: {}
+    #js/app.js: { attributes: { defer: true } }
+
+  css:
+    component:
+      dist/css/app.css: { attributes: { preload: true }, preprocess: false, minified: true }

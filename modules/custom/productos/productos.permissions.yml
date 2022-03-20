@@ -1,0 +1,10 @@
+view productos:
+  title: 'Configuracion del modulo canje tap it'
+  description: 'El usuario puede ver el contenido relacionado con el módulo'
+access productos:
+  title: 'Acceder a contenido restringido'
+  description: 'El usuario con este permiso podrá ver contenido restringido'
+administer productos:
+  title: 'Administrar el módulo'
+  description: 'Sólo los administradores podrán modificar la configuración del módulo'
+  restrict access: TRUE

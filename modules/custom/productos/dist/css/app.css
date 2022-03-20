@@ -1,0 +1,108 @@
+.report-register-table {
+  overflow-x:auto;
+  overflow-y:hidden;
+}
+
+.report-products-table{
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+
+#header{
+background-color: #fff !important;
+background-image: linear-gradient(to bottom, #fff 0%, #fff 100%) !important; 
+border-bottom: solid #dadbdc 0.5px;
+height: 111px;
+}
+
+
+.region-header, .region-header a, .region-header li a.is-active, .region-header .site-branding__text, .region-header .site-branding, .region-header .site-branding__text a, .region-header .site-branding a, .region-secondary-menu .menu-item a, .region-secondary-menu .menu-item a.is-active {
+  color: #655f65 !important;
+}
+
+.region-breadcrumb {
+position: relative;
+background-color: #fafafa;
+width: 100%;
+margin-top: -6px;
+height: 41px;
+}
+
+.region-header {
+  position: relative;
+  margin-top: -37px;
+  width: 216px;
+}
+
+.main-content .section {
+  padding: 0 34px !important;
+  background: #fffefe;
+  width: 96.8%;
+  border: solid #00000008 0.1px;
+  margin-top: 5px;
+}
+
+input{
+  border: 1px solid !important;
+  border-radius: .875rem !important;
+  margin-left: auto !important;
+  padding: 12px !important;
+}
+
+summary {
+  color: #fcfafa !important;
+  background: rgb(255, 80, 5) !important;
+  text-shadow: 0 1px 0 #eee4e4 !important;
+}
+
+table tr th {
+  border-bottom-style: none !important;
+  background: rgb(255, 80, 5) !important;
+}
+
+.region-header a {
+  color: #fff !important;
+  background-image: url('tapit-logo.png');
+  font-size: 15px;
+}
+
+.region-header {
+  background-image: url('tapit-logo.png');
+  position: relative;
+  height: 93px;
+  width: 199px;
+  font-size: 4.1px;
+  margin-right: 27px;
+
+}
+
+.region-header a{
+ display: none;
+}
+
+.button {
+  color: #f7f4f4 !important;
+  background-image: linear-gradient(to bottom, #fc7336, #ff4f00) !important;
+  font-weight: bold !important;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif !important;
+}
+
+.button:hover {
+  color: #444040 !important;
+  background-image: linear-gradient(to bottom, #fc8f60, #fa6520) !important;
+  font-weight: bold !important;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif !important;
+}
+
+.menu a{
+  font-weight: bold !important;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif !important;
+}
+
+
+@media (max-width: 870px) {
+  .region-header {
+    display: none;
+  }
+}

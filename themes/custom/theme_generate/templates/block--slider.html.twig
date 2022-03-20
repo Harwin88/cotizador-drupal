@@ -1,17 +1,21 @@
 
-        {% for i in 0..content.field_numero_de_banner[0]["#markup"] %}
-            {% if i == 0 %}
-              <div class="carousel-item active">
-                {% else %}
-                  <div class="carousel-item">
-                {% endif %}
-                {% if content.field_titulo[i] != NULL %}
-                <div class="carousel-container">
-                  <h2 class="animate__animated animate__fadeInDown">{{ content.field_titulo[i] }}</h2>
-                  <p class="animate__animated animate__fadeInUp">{{ content.body[i] }}</p>
-                  <a href={{ content.field_enlace_redired[i] }} class="btn-get-started animate__animated animate__fadeInUp scrollto">{{ content.field_texto_boton_slider[i] }}</a>
-                </div>
-                {{ content.field_imagen_slider[i] }}
-              </div>
-            {% endif %}
-        {% endfor %}
+      {% for i in 0..content.field_numero_de_banner[0]["#markup"] %}
+      {% if i == 0 %}
+        <div class="carousel-item active">
+          {% else %}
+            <div class="carousel-item">
+          {% endif %}
+          {% if content.field_titulo[i] != NULL %}
+          <div class="carousel-container">
+            <h2 class="animate__animated animate__fadeInDown">{{ content.field_titulo[i] }}</h2>
+            <p class="animate__animated animate__fadeInUp">{{ content.body[i] }}</p>
+            <a href={{ content.field_enlace_redired[i] }} class="btn-get-started animate__animated animate__fadeInUp scrollto">{{ content.field_texto_boton_slider[i] }}</a>
+          </div>
+          {{ content.field_imagen_slider[i] }}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+
+
+

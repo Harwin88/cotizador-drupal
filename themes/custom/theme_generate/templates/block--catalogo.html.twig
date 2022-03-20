@@ -1,83 +1,41 @@
- <!-- ======= Team Section ======= -->
-    <section id="team" class="team section-bg">
-      <div class="container" data-aos="fade-up">
-      {{ dump(catalogo_obj) }}
-        <div class="section-title">
-          <h2>Catalogo </h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+   <!-- ======= Clients Section ======= -->
+   <section id="clients" class="clients">
+    <div class="container" data-aos="zoom-in">
+         <div class="clients-slider swiper">
+        <div class="swiper-wrapper align-items-center">
+          <div class="swiper-slide category-menu"><img src="themes/custom/theme_generate/assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
+          <div class="swiper-slide category-menu"><img src="themes/custom/theme_generate/assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
+          <div class="swiper-slide category-menu"><img src="themes/custom/theme_generate/assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
+          <div class="swiper-slide category-menu"><img src="themes/custom/theme_generate/assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
+          <div class="swiper-slide category-menu"><img src="themes/custom/theme_generate/assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
+          <div class="swiper-slide category-menu"><img src="themes/custom/theme_generate/assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
+          <div class="swiper-slide category-menu"><img src="themes/custom/theme_generate/assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
+          <div class="swiper-slide category-menu"><img src="themes/custom/theme_generate/assets/img/clients/client-8.png" class="img-fluid" alt=""></div>
         </div>
-
-        <div class="row">
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="member d-flex align-items-start">
-              <div class="pic">
-                  <img src={{ catalogo_obj[0].url_image }} class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>{{ catalogo_obj[0].name_event }}</h4>
-                <span>Marca: {{  catalogo_obj[0].name_brand }}</span>
-                <p>{{ catalogo_obj[0].description }}</p>
-                {% if rol[0] == 'authenticated' %}
-                <h4><sup> Valor caja:$</sup>{{ catalogo_obj[0].points_tapit }}<span> / Cantidad: {{ catalogo_obj[0].number_tickets }}</span></h4>
-               <button  class="btn-get-started animate__animated animate__fadeInUp scrollto">Pedir</button>
-                {% endif %} 
-                <button>Pedir</button> 
-            </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Product Manager</span>
-                <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-3.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-                <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4" data-aos="fade-up" data-aos-delay="400">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-4.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Amanda Jepson</h4>
-                <span>Accountant</span>
-                <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
+        <div class="swiper-pagination"></div>
       </div>
-    </section><!-- End Team Section -->
+
+    </div>
+  </section><!-- End Clients Section -->
+
+<section id="portfolio" class="portfoio">
+  <div class="container" data-aos="fade-up">
+        <div id="team" class="team row">
+          {% for i in 0..catalogo_obj|length - 1 %}
+          <div class="card car-produ" style="width: 18rem;">
+            <img class="card-img-top" src={{ catalogo_obj[i].url_image }}  alt="Card image cap">
+            <div class="card-body">
+              <h4>{{ catalogo_obj[i].name_event }}</h4>
+              <span>Marca: {{  catalogo_obj[i].name_brand }}</span>
+              <p>{{ catalogo_obj[i].description|slice(0, 30) }}...</p>
+              <h4><sup> Valor caja:$</sup>{{ catalogo_obj[i].points_tapit }}<span> / Cantidad: {{ catalogo_obj[i].number_tickets }}</span></h4>
+              <a href="#" class="btn btn-primary">Pedir</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+   </div>
+  </section>
+

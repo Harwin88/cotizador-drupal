@@ -1,0 +1,483 @@
+<?php
+
+/**
+ * @file
+ * Install.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function productos_schema() {
+  $schema = [];
+  $schema['productos'] = [
+    'fields' => [
+      'id_event' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique person ID.',
+      ],
+      'name_event' => [
+        'description' => 'nombre del evento',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'points_tapit' => [
+        'description' => 'puntos tapit para acceder al eventos',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'name_brand' => [
+        'description' => 'brand name',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'description' => [
+        'description' => 'Descrpcion del evento',
+        'type' => 'text',
+      ],
+      'event_city' => [
+        'description' => 'Ciudad del evento',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'event_address' => [
+        'description' => 'Dirección del evento',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'event_status' => [
+        'description' => 'Estado del evento 1:true 0:false',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 1,
+      ],
+      'number_tickets' => [
+        'description' => 'Número de entradas al evento',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'number_tickets_remaining' => [
+        'description' => 'Número de entradas al evento restante',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'category' => [
+        'description' => 'Categoría del producto ',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'ticket_type' => [
+        'description' => 'Pase doble o personal',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'event_date' => [
+        'description' => 'Fecha create event',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'url_landing_promo' => [
+        'description' => 'Url de la marca ',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'origin_type' => [
+        'description' => 'Origin del evento o producto',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'url_tyc' => [
+        'description' => "Url terms and conditions",
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'require_location' => [
+        'description' => "Boolean field to collect location data",
+        'type' => 'char',
+        'length' => 1,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'require_redirect' => [
+        'description' => "Boolean field to define redirection to url_landing_promo",
+        'type' => 'char',
+        'length' => 1,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'size' => [
+        'description' => "Product size",
+        'type' => 'varchar',
+        'length' => 60,
+        'default' => '',
+      ],
+      'color' => [
+        'description' => "Product color",
+        'type' => 'varchar',
+        'length' => 60,
+        'default' => '',
+      ],
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "fechacreacion evento",
+      ],
+      'status' => [
+        'description' => "Boolean field to enable/disable a event",
+        'type' => 'char',
+        'length' => 1,
+        'not null' => TRUE,
+        'default' => 1,
+      ],
+    ],
+    'primary key' => ['id_event'],
+  ];
+
+  $schema['imagen_event'] = [
+    'description' => 'imagen eventos.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'url_image' => [
+        'description' => 'url de la imagenes del evento',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'url_image_mobile' => [
+        'description' => 'url change de la imagenes del evento mobile',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'id_event' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['brand_data'] = [
+    'description' => 'datos de las marcas para vestir los eventos.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'url_banner' => [
+        'description' => 'Banner de la marca',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'copy1' => [
+        'description' => 'texto de la marca primario',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'copy2' => [
+        'description' => 'texto marca secundario ',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'brand' => [
+        'description' => 'Nombre de la marca. ',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'url_image_brand' => [
+        'description' => 'Imagen Brand logo',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "fechacreacion evento",
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['user_for_event'] = [
+    'description' => 'usuarios eventos.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'description' => 'timestamp created',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'name' => [
+        'description' => '',
+        'type' => 'varchar',
+        'length' => 125,
+        'default' => '',
+      ],
+      'last_name' => [
+        'description' => '',
+        'type' => 'varchar',
+        'length' => 125,
+        'default' => '',
+      ],
+      'type_document' => [
+        'description' => 'Tipo de documento',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'identification_card' => [
+        'description' => '',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'email' => [
+        'type' => 'varchar',
+        'length' => 200,
+      ],
+      'phone' => [
+        'type' => 'varchar',
+        'length' => 100,
+      ],
+      'department' => [
+        'description' => "Owner's department",
+        'type' => 'varchar',
+        'not null' => FALSE,
+        'length' => 120,
+      ],
+      'city' => [
+        'description' => "Owner's city",
+        'type' => 'varchar',
+        'not null' => FALSE,
+        'length' => 120,
+      ],
+      'address' => [
+        'description' => "Owner's address",
+        'type' => 'varchar',
+        'not null' => FALSE,
+        'length' => 255,
+      ],
+      'additional_address_information' => [
+        'description' => "Additional address information",
+        'type' => 'varchar',
+        'not null' => FALSE,
+        'length' => 255,
+      ],
+      'postal_code' => [
+        'description' => "Owner's postal code",
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'name_invited' => [
+        'description' => '',
+        'type' => 'varchar',
+        'length' => 125,
+        'default' => '',
+      ],
+      'last_name_invited' => [
+        'description' => '',
+        'type' => 'varchar',
+        'length' => 125,
+        'default' => '',
+      ],
+      'type_document_invited' => [
+        'description' => 'Tipo de documento',
+        'type' => 'int',
+        'default' => 0,
+      ],
+      'identification_card_invited' => [
+        'description' => '',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'email_invited' => [
+        'type' => 'varchar',
+        'length' => 200,
+      ],
+      'phone_invited' => [
+        'type' => 'varchar',
+        'length' => 100,
+      ],
+      'id_event' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Add fields to events_tapit table and user_for_event table.
+ */
+function productos_update_8901(&$sandbox) {
+  $database = \Drupal::database();
+  $schema = $database->schema();
+  $table_one = 'productos';
+  $table_two = 'user_for_event';
+  $url_tyc = [
+    'description' => "Url terms and conditions",
+    'type' => 'varchar',
+    'length' => 255,
+    'default' => '',
+  ];
+  $require_location = [
+    'description' => "Boolean field to collect location data",
+    'type' => 'char',
+    'length' => 1,
+    'not null' => TRUE,
+    'default' => 0,
+  ];
+  $require_redirect = [
+    'description' => "Boolean field to define redirection to url_landing_promo",
+    'type' => 'char',
+    'length' => 1,
+    'not null' => TRUE,
+    'default' => 0,
+  ];
+  $department = [
+    'description' => "Owner's department",
+    'type' => 'varchar',
+    'not null' => FALSE,
+    'length' => 120,
+  ];
+  $city = [
+    'description' => "Owner's city",
+    'type' => 'varchar',
+    'not null' => FALSE,
+    'length' => 120,
+  ];
+  $address = [
+    'description' => "Owner's address",
+    'type' => 'varchar',
+    'not null' => FALSE,
+    'length' => 255,
+  ];
+  $additional_address_information = [
+    'description' => "Additional address information",
+    'type' => 'varchar',
+    'not null' => FALSE,
+    'length' => 255,
+  ];
+  $postal_code = [
+    'description' => "Owner's postal code",
+    'type' => 'int',
+    'not null' => FALSE,
+  ];
+  if ($schema->tableExists($table_one)) {
+    if (!$schema->fieldExists($table_one, 'url_tyc')) {
+      $schema->addField($table_one, 'url_tyc', $url_tyc);
+    }
+    if (!$schema->fieldExists($table_one, 'require_location')) {
+      $schema->addField($table_one, 'require_location', $require_location);
+    }
+    if (!$schema->fieldExists($table_one, 'require_redirect')) {
+      $schema->addField($table_one, 'require_redirect', $require_redirect);
+    }
+  }
+  if ($schema->tableExists($table_two)) {
+    if (!$schema->fieldExists($table_two, 'department')) {
+      $schema->addField($table_two, 'department', $department);
+    }
+    if (!$schema->fieldExists($table_two, 'city')) {
+      $schema->addField($table_two, 'city', $city);
+    }
+    if (!$schema->fieldExists($table_two, 'address')) {
+      $schema->addField($table_two, 'address', $address);
+    }
+    if (!$schema->fieldExists($table_two, 'additional_address_information')) {
+      $schema->addField($table_two, 'additional_address_information', $additional_address_information);
+    }
+    if (!$schema->fieldExists($table_two, 'postal_code')) {
+      $schema->addField($table_two, 'postal_code', $postal_code);
+    }
+  }
+}
+
+/**
+ * Add fields to productos table.
+ */
+function productos_update_8902(&$sandbox) {
+  $database = \Drupal::database();
+  $schema = $database->schema();
+  $table = 'productos';
+  $size = [
+    'description' => "Product size",
+    'type' => 'varchar',
+    'length' => 60,
+    'default' => '',
+  ];
+  $color = [
+    'description' => "Product color",
+    'type' => 'varchar',
+    'length' => 60,
+    'default' => '',
+  ];
+  if ($schema->tableExists($table)) {
+    if (!$schema->fieldExists($table, 'size')) {
+      $schema->addField($table, 'size', $size);
+    }
+    if (!$schema->fieldExists($table, 'color')) {
+      $schema->addField($table, 'color', $color);
+    }
+  }
+}
+
+/**
+ * Add fields to productos table.
+ */
+function productos_update_8903(&$sandbox) {
+  $database = \Drupal::database();
+  $schema = $database->schema();
+  $table = 'productos';
+  $status = [
+    'description' => "Boolean field to enable/disable a event",
+    'type' => 'char',
+    'length' => 1,
+    'not null' => TRUE,
+    'default' => 1,
+  ];
+  if ($schema->tableExists($table)) {
+    if (!$schema->fieldExists($table, 'status')) {
+      $schema->addField($table, 'status', $status);
+    }
+  }
+}

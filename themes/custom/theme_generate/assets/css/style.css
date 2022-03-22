@@ -1915,6 +1915,7 @@ section {
   padding: 10px 20px;
   border: 0;
   background-color: #0880e8;
+
 }
 .blog .blog-comments .reply-form .btn-primary:hover {
   background-color: #138df7;
@@ -2298,4 +2299,12 @@ box-shadow: rgba(46, 44, 54, 0.02) 0px 10px 20px 0px;
 .car-produ{
   margin-right: 12px;
   margin-bottom: 9px;
+  color: #000;
+  width: 18rem;
+}
+
+.btn-primary{
+  width: 184px;
+  margin-left: 15%;
+  margin-bottom: 15%;
 }

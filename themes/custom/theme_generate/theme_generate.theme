@@ -1,5 +1,6 @@
 <?php
 use Drupal\productos\Controller\EventApiController;
+use Drupal\Core\Form\FormStateInterface;
 /*function theme_generate_preprocess_block__comunicacio(&$variables) {
     var_dump($variables);
   
@@ -22,12 +23,37 @@ function theme_generate_preprocess_block__catalogo(&$variables) {
   $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
     $city = !empty($request['city']) ? $request['city'] : NULL;
     $brand = !empty($request['brand']) ? $request['brand'] : NULL;
+  
     $category = !empty($request['category']) ? $request['category'] : NULL;
     $response = EventApiController::productsList($city, $brand, $category);
     $variables['path'] = \Drupal::service('path.current')->getPath();
     $variables['catalogo_obj'] = $response;
+ 
 }
 
 function theme_generate_preprocess(&$variables) {
+  $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
   $variables['path'] = \Drupal::service('path.current')->getPath();
+  $variables['brand'] = !empty($request['brand']) ? $request['brand'] : NULL;;
+}
+
+function theme_generate_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  switch ($form_id) {
+    case 'user_login_form':
+      //Altera el formulario para añadirle una plantilla y poder imprimirlo
+      $form['#theme'] = 'neko_user_login';
+      break;
+      case 'productos_form';
+       $form['#theme'] = 'filtros_form';
+      break;
+  }
+}
+
+function theme_generate_theme($existing, $type, $theme, $path) {
+  return [
+    'productos_form' => [
+      'render element' => 'form',
+    ],
+  ];
 }

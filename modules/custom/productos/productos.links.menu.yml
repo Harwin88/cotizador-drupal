@@ -32,3 +32,9 @@ productos.imposrt_files:
   parent: main
   route_name: productos.imposrt_files
   weight: 401
+
+productos.form_page:
+  route_name: productos.form_page
+  title: My Module Form
+  parent: productos.main
+  weight: -6

@@ -1,3 +1,5 @@
+(function ($) {
+  'use strict';
 // Get the modal
 var modal = document.getElementById("myModal");
 
@@ -24,3 +26,20 @@ window.onclick = function(event) {
   }
 }
 
+
+
+$(document).ready(function() {
+
+    $(".fadeout").delay(2000).fadeOut(1000);
+
+    $("#ocultar").click(function(event){
+      event.preventDefault();
+      $('#box1').fadeOut(2000);
+      });
+      $("#mostrar").click(function(event){
+      event.preventDefault();
+      $("#box1").slideDown(3000);
+      });
+
+});
+})(jQuery);

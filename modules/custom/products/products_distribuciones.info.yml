@@ -1,0 +1,6 @@
+name: products 
+type: module
+description: api REST for product
+package: Click Help me
+core: 8.x
+core_version_requirement: ^8 || ^9

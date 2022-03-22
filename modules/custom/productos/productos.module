@@ -22,3 +22,11 @@ function productos_preprocess_page(&$variables) {
   }
 
 }
+
+function productos_theme($existing, $type, $theme, $path) {
+  return [
+    'Catalogos' => [
+      'render element' => 'form',
+    ],
+  ];
+}

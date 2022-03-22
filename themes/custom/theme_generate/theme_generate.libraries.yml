@@ -21,4 +21,5 @@ global-styling:
    assets/vendor/php-email-form/validate.js: {}
    assets/js/main.js: {}
    js/foo.js: {}
-
+  dependencies:
+   - core/jquery.ui.accordion

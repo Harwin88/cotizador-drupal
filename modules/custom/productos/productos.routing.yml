@@ -89,11 +89,3 @@ productos.admin.products_import:
   requirements:
     _permission: 'access productos'
 
-productos.form_page:
-  path: '/Catalogos'
-  defaults:
-    _form: 'Drupal\productos\Form\FiltrosForme'
-    _title: 'My Module Form'
-  requirements:
-    _access: 'TRUE'
-

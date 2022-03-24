@@ -32,9 +32,9 @@ class FiltrosForme extends FormBase {
     $form['#theme'] = 'productos_form';
 
     $form['temperature'] = [
-      '#title' => $this->t('Temperature'),
+      '#title' => $this->t('Categorias'),
       '#type' => 'select',
-      '#options' => ['warm' => 'Warm', 'cool' => 'Cool'],
+      '#options' => ['electricos' => 'electricos', 'iluminarias' => 'iluminarias'],
       '#empty_option' => $this->t('-select'),
       '#ajax' => [
       'callback' => '::colorCallback',
@@ -81,5 +81,7 @@ class FiltrosForme extends FormBase {
     return $form['color_wrapper'];
     }
     public function submitForm(array &$form, FormStateInterface $form_state) {
+      header("Location: https://localhost:49155/Catalogos?brand=solen");
+      die();
     }
 }

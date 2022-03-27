@@ -23,3 +23,5 @@ global-styling:
    js/foo.js: {}
   dependencies:
    - core/jquery.ui.accordion
+   - core/jquery
+   - core/drupalSettings

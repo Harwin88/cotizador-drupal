@@ -32,7 +32,7 @@ class FiltrosForme extends FormBase {
     $form['#theme'] = 'productos_form';
 
     $form['temperature'] = [
-      '#title' => $this->t('Categorias'),
+      '#title' => $this->t('Filtrar por Categorias.'),
       '#type' => 'select',
       '#options' => ['electricos' => 'electricos', 'iluminarias' => 'iluminarias'],
       '#empty_option' => $this->t('-select'),

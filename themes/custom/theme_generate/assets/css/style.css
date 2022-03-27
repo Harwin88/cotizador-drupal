@@ -724,6 +724,7 @@ section {
 }
 .about .container {
   position: relative;
+  
 }
 .about .content h3 {
   font-weight: 600;
@@ -2300,11 +2301,11 @@ border: solid #13141f4d 0.5px;
 }
 .category-menu:hover{
 	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
-	background:#116ea88e;
   -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
+
 #box1{
   background-color: #f2f2f2;
 color: #054f8f;

@@ -7,21 +7,21 @@
 
 /**
  * Implements hook_page().
- */
-function productos_preprocess_page(&$variables) {
-  $user_rol = \Drupal::currentUser()->getRoles();
-  $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
-  $tapit = !empty($request['branb']) ? $request['branb'] : NULL;
 
-  if ($user_rol[1] == "operaciones") {
-    $variables['#attached']['library'][] = 'productos/productos';
-  }
-
-  if ($tapit == 'tapit') {
-    $variables['#attached']['library'][] = 'productos/productos';
-  }
-
-}
+*function productos_preprocess_page(&$variables) {
+*  $user_rol = \Drupal::currentUser()->getRoles();
+*  $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
+*  $tapit = !empty($request['branb']) ? $request['branb'] : NULL;
+*
+*  if ($user_rol[1] == "operaciones") {
+*    $variables['#attached']['library'][] = 'productos/productos';
+*  }
+*
+*  if ($tapit == 'tapit') {
+*    $variables['#attached']['library'][] = 'productos/productos';
+*  }
+*
+*} */
 
 function productos_theme($existing, $type, $theme, $path) {
   return [

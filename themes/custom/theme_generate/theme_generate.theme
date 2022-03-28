@@ -38,26 +38,12 @@ function theme_generate_preprocess(&$variables) {
   $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
   $variables['path'] = \Drupal::service('path.current')->getPath();
   $variables['brand'] = !empty($request['brand']) ? $request['brand'] : NULL;
+    
   $form = \Drupal::formBuilder()->getForm('Drupal\productos\Form\FiltrosForme');
+  $form_register = \Drupal::formBuilder()->getForm('Drupal\productos\Form\UserClientForm');
+
+  $variables['form_register'] = $form_register;
   $variables['filter'] = $form;
 }
 
-function theme_generate_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-  switch ($form_id) {
-    case 'user_login_form':
-      //Altera el formulario para añadirle una plantilla y poder imprimirlo
-      $form['#theme'] = 'neko_user_login';
-      break;
-      case 'productos_form';
-       $form['#theme'] = 'filtros_form';
-      break;
-  }
-}
-
-function theme_generate_theme($existing, $type, $theme, $path) {
-
-  $form = \Drupal::formBuilder()->getForm('Drupal\productos\Form\FiltrosForme');
-  
-  $variables['filter'] = $form;
-}

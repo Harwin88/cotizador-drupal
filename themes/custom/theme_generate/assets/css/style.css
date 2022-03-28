@@ -2228,7 +2228,7 @@ section {
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
-  top: 0;
+  top: 11%;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -2298,6 +2298,10 @@ box-shadow: rgba(46, 44, 54, 0.02) 0px 10px 20px 0px;
 padding: 19px;
 height: 80px;
 border: solid #13141f4d 0.5px;
+text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 .category-menu:hover{
 	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
@@ -2337,4 +2341,20 @@ padding: 10px;
   width: 184px;
   margin-left: 15%;
   margin-bottom: 15%;
+}
+
+.btn-ajax, .button {
+  border: 0;
+  padding: 10px 32px;
+  color: #0880e8;
+  transition: 0.4s;
+  border-radius: 50px;
+  border: 2px solid #0880e8;
+  background: #fff;
+  margin-top: 27px;
+}
+
+.btn-ajax::hover, button::hover {
+  background: #0880e8;
+  color: #fff;
 }

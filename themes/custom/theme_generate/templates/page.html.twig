@@ -38,11 +38,11 @@
 <main id="main">
 
  <!-- ======= Icon Boxes Section ======= -->
-
- <section id="about" class="about">
-  <div class="container" data-aos="fade-up">
-    <section id="clients" class="clients">
-      <div class="container" data-aos="zoom-in">
+{% if path == "/Catalogos" %} 
+  <section id="about" class="about">
+   <div class="container" data-aos="fade-up">
+     <section id="clients" class="clients">
+       <div class="container" data-aos="zoom-in">
            <div class="clients-slider swiper">
           <div class="swiper-wrapper align-items-center">
             <div class="swiper-slide category-menu"> <a href="/Catalogos?brand=mayco"><img src="themes/custom/theme_generate/assets/img/clients/mayco.png" class="img-fluid" alt=""></a></div>
@@ -60,7 +60,12 @@
     
       </div>
     </section>
-    {{ page.content }}
+{% endif %}
+<br>
+<br>
+  {{ page.content }}
+<br>
+
   </div>
 </section>
 

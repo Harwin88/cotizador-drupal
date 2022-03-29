@@ -1,5 +1,5 @@
 productos.admin.productos.config:
-  path: '/admin/config/event'
+  path: '/admin/config/product'
   defaults:
     _form: '\Drupal\productos\Form\ProductosForm'
     _title: 'Products Management'

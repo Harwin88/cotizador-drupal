@@ -23,5 +23,11 @@ $('.close').click(function(){
       $("#box1").slideDown(3000);
       });
 
+  $(".modal-open-btn ").click(function(){
+   
+   //  alert("este es un evento ajax "+ $(this).val());
+  
+  });
+
 });
 })(jQuery);

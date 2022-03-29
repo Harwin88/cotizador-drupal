@@ -13,8 +13,6 @@ use Drupal\productos\Controller\EventApiController;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
-
 /**
  * Configure example settings for this site.
  */
@@ -61,19 +59,20 @@ class UserClientForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
   
-    $form['message'] = [
-      '#type' => 'markup',
-      '#markup' => '<div class="result_message"></div>'
+    $form['debug'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'id' => ['debug-out'],
+      ],
     ];
 
-
-    $form['email']=[
+    $form['debug']['email']=[
       '#type' => 'email',
       '#class' => 'form-control',
       "#placeholder"=>"email@dominio.com",
     ];
 
-    $form['name'] = [
+    $form['debug']['name'] = [
       '#type' => 'textfield',
       "#placeholder"=>"Nombre y apellidos",
       '#required' => TRUE,
@@ -82,7 +81,7 @@ class UserClientForm extends ConfigFormBase {
       '#class' => 'form-control',
     ];
 
-    $form['phlonet']=[
+    $form['debug']['phlonet']=[
       '#type' => 'number',
       "#placeholder"=>"+57 31221222212",
       '#class' => 'form-control',
@@ -91,7 +90,7 @@ class UserClientForm extends ConfigFormBase {
     ];
 
 
-    $form['intereses']=[
+    $form['debug']['intereses']=[
       '#type' => 'hidden',
       '#title' => $this->t('Intereses json'),
       '#class' => 'form-control',
@@ -101,14 +100,19 @@ class UserClientForm extends ConfigFormBase {
   
   
    
-      $form['actions'] = [
+      $form['debug']['actions'] = [
         '#type' => 'button',
         '#value' => $this->t('Solisitar'),
-        '#prefix' => '<div class="text-center">',
-        '#suffix' => '</div>',
         '#ajax' => [
-          'callback' => '::myAjaxCallback',
-        ],
+          'callback' => '::createuserAjaxCallback', // don't forget :: when calling a class method.
+          //'callback' => [$this, 'myAjaxCallback'], //alternative notation
+          'disable-refocus' => FALSE, // Or TRUE to prevent re-focusing on the triggering element.
+          'wrapper' => 'edit-output', // This element is updated with this AJAX callback.
+          'progress' => [
+            'type' => 'throbber',
+            'message' => $this->t('Verifying entry...'),
+          ],
+        ]
       ];
   
 
@@ -131,83 +135,38 @@ class UserClientForm extends ConfigFormBase {
    * Public function addmoreCallback_config(array &$form, FormStateInterface $form_state)
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    
- 
-    $field = $form_state->getValues();
-	
-   
-	$fields["fname"] = $field['fname'];
-	$fields["name"] = $field['name'];
-	$fields["age"] = $field['age'];
-	$fields["marks"] = $field['marks'];
-	    // Display result.
-      foreach ($form_state->getValues() as $key => $value) {
-        \Drupal::messenger()->addStatus($key . ': ' . $value);
-      }
-      
-      \Drupal::messenger()->addMessage($this->t('Student data=fname='.$fields["fname"].'=name='.$fields["name"].'=age='.$fields["age"].'marks==='.$fields["marks"]));
-      
-   return $form_state;
-
-    
+    $id = \Drupal::database()->insert('client_user')
+    ->fields([
+      'name' => $form_state->getValue('name'),
+      'email' => $form_state->getValue('email'),
+      'phone' => $form_state->getValue('phlonet'),
+      'created' => \Drupal::time()->getRequestTime(),
+      'updte' => \Drupal::time()->getRequestTime(),
+    ])
+    ->execute();
+    return $form_state;
   }
 
-  public function myAjaxCallback(array $form, FormStateInterface $form_state) {
+  public function createuserAjaxCallback(array $form, FormStateInterface $form_state) {
+    $id = \Drupal::database()->insert('client_user')
+    ->fields([
+      'name' => $form_state->getValue('name'),
+      'email' => $form_state->getValue('email'),
+      'phone' => $form_state->getValue('phlonet'),
+      'created' => \Drupal::time()->getRequestTime(),
+      'updte' => \Drupal::time()->getRequestTime(),
+    ])
+    ->execute();
 
-    $field = $form_state->getValues();
-    $fields["email"] = $field['email'];
-    $fields["name"] = $field['name'];
-    $fields["phlonet"] = $field['phlonet'];
-    $fields["marks"] = $field['marks'];
-       // Try to get the selected text from the select element on our form.
-  $selectedText = 'nothing selected';
- 
-    $selectedText = $form['email']['#options'][$selectedValue];
+    $response = new AjaxResponse();
+    $debugOut =  "<div class='mensajes-registro'>Felicidades ".$form_state->getValue('name').", tu registro fue exitoso, nos pondremos en contacto antes de 24 horas.</div>";
+    $response->addCommand(new ReplaceCommand('#debug-out', $debugOut ));
+
   
+    return $response;
 
-  // Create a new textfield element containing the selected text.
-  // We're replacing the original textfield using an AJAX replace command which
-  // expects either a render array or plain HTML markup.
-  $elem = [
-    '#type' => 'textfield',
-    '#size' => '60',
-    '#disabled' => TRUE,
-    '#value' => "I am a new textfield: $selectedText!",
-    '#attributes' => [
-      'id' => ['edit-output'],
-    ],
-  ];
 
-  // Attach the javascript library for the dialog box command
-  // in the same way you would attach your custom JS scripts.
-  $dialogText['#attached']['library'][] = 'core/drupal.dialog.ajax';
-  // Prepare the text for our dialogbox.
-  $dialogText['#markup'] = "You selected: $selectedText";
-
-  // If we want to execute AJAX commands our callback needs to return
-  // an AjaxResponse object. let's create it and add our commands.
-  $response = new AjaxResponse();
-  // Issue a command that replaces the element #edit-output
-  // with the rendered markup of the field created above.
-  // ReplaceCommand() will take care of rendering our text field into HTML.
-  $response->addCommand(new ReplaceCommand('#edit-output', $elem));
-  $markup = 'nothing selected';
-
-  // Prepare our textfield. Check if the example select field has a selected option.
-  if ($form_state->getValue('emil')) {
-      // Get the text of the selected option.
-      $selectedText = $form['email']['#options'][$selectedValue];
-      // Place the text of the selected option in our textfield.
-      $markup = "<h1>$selectedText</h1>";
-  }
-
-  // Don't forget to wrap your markup in a div with the #edit-output id
-  // or the callback won't be able to find this target when it's called
-  // more than once.
-  $output = "<div id='edit-output'>$markup</div>";
-
-  // Return the HTML markup we built above in a render array.
-  return ['#markup' => $output];
+  
   }
 
   /**

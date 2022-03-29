@@ -43,6 +43,9 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 50px;
   transition: all 0.4s;
 }
+.logo-marca{
+  width: 85px;
+}
 .back-to-top i {
   font-size: 28px;
   color: #fff;
@@ -2354,7 +2357,26 @@ padding: 10px;
   margin-top: 27px;
 }
 
-.btn-ajax::hover, button::hover {
-  background: #0880e8;
-  color: #fff;
+.button:hover, .button:active, .button:focus  {
+  background: #0880e8 !important;
+  color: #fff !important;
+}
+
+.form-number {
+  width: 100%;
+}
+
+.card-body{
+  font-size: 11px;
+}
+
+.card-img-custom{
+  width: 73% !important;
+}
+
+.mensajes-registro{
+  color: #054e30;
+    background: #00ff5a21;
+    font-size: 14px;
+    padding: 12%;
 }

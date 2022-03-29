@@ -10,26 +10,38 @@
 <a href="#" id="ocultar">Ocultar la capa</a> |
 <a href="#" id="mostrar">Mostrar la capa</a>
 </p>
-{{ form.user_view }}
 {% endif %}
 <section id="portfolio" class="portfoio">
   <div class="container" data-aos="fade-up">
         <div id="team" class="team row">
           {% for i in 0..catalogo_obj|length - 1 %}
           <div class="card car-produ" >
-            <img class="card-img-top" src={{ catalogo_obj[i].url_image }}  alt="Card image cap">
+            <img class="card-img-top card-img-custom" src={{ catalogo_obj[i].url_image }}  alt="Card image cap">
             <div class="card-body">
-              <h4>{{ catalogo_obj[i].name_event }}</h4>
-              <p>Marca: {{  catalogo_obj[i].name_brand }}</p>
-              <p>{{ catalogo_obj[i].description|slice(0, 30) }}...</p>
-              <p> Costo con Iva:${{ catalogo_obj[i].points_tapit|number_format(2) }}</p>
-              <p>stock: {{ catalogo_obj[i].number_tickets }}</p></h4>
+              <p><img class="logo-marca" src={{  catalogo_obj[i].url_image_brand }}  alt="Card image cap"></p>
+              <h6>{{ catalogo_obj[i].name_product }}</h6>
+              <p>{{ catalogo_obj[i].description|slice(0, 60) }} </p>
+              <p> Costo con Iva:${{ catalogo_obj[i].precio_unitario|number_format(2) }}</p>
+              <p>stock: {{ catalogo_obj[i].stock_restante }} {{ catalogo_obj[i].size }}</p>
+              <p>Minima compra: {{ catalogo_obj[i].minima_compra }}  {{ catalogo_obj[i].size }}</p>
+              <p>Entrega en: {{ catalogo_obj[i].horas_entrega }} Horas</p>
+              <div class="row">
+                <div class="col-4"><p>Color Productos:</p></div>
+                <div class="col-6"><div style=" background:{{ catalogo_obj[i].color  }}; width: 60px; height: 24px;"></div></div>
+                <div class="col-2"> </div>
+              </div>
             </div>
-            <a href="#team" class="modal-open-btn  btn btn-primary btn-get-started animate__animated animate__fadeInUp scrollto">Pedir</a>
+            <div class="modal-open-btn">
+            <a  href="#id={{ catalogo_obj[i].id_product }}" class="  btn btn-primary btn-get-started animate__animated animate__fadeInUp scrollto">Pedir</a>
+            <input class=" modal-open-btn  id-product" type="hidden" name="id_producto" value="{{ catalogo_obj[i].id_product }}">
+            </div>
           </div>
+  
           {% endfor %}
         </div>
       </div>
     </div>
    </div>
   </section>
+ 
+ 

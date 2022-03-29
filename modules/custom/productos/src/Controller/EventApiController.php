@@ -64,7 +64,7 @@ class EventApiController extends ControllerBase {
     $database = \Drupal::database();
     $query = $database->select('productos', 'ev');
     $query->condition('event_status', 1, '=');
-    $result = $query->fields('ev', ['event_date', 'id_event'])->execute();
+    $result = $query->fields('ev', ['event_date', 'id_product'])->execute();
 
     return $result->fetchAll();
   }
@@ -89,7 +89,7 @@ class EventApiController extends ControllerBase {
             ->fields([
               'event_status' => 0,
               'created' => \Drupal::time()->getRequestTime(),
-            ])->condition('id_event', $valor->id_event, '=')
+            ])->condition('id_product', $valor->id_product, '=')
             ->condition('category', 'Tickets', '=')
             ->execute();
         }
@@ -134,7 +134,7 @@ class EventApiController extends ControllerBase {
     ];
 
     $query = \Drupal::database()->select('user_for_event', 'us');
-    $query->join('productos', 'e', 'e.id_event = us.id_event');
+    $query->join('productos', 'e', 'e.id_product = us.id_product');
     $query
       ->fields('us')
       ->fields('e');
@@ -172,51 +172,92 @@ class EventApiController extends ControllerBase {
    * @return array
    *   Array products list
    */
-  public static function productsList($city, $brand, $category) {
+  public static function productsList($tipo_producto, $brand, $category) {
     $response = [];
     $query = \Drupal::database()->select('productos', 'e');
-    $query->condition('status', 1, '=');
-    if (!empty($city)) {
-      $query->condition('event_city', '%' . $city . '%', 'LIKE');
+    $query->condition('estado_producto', 1, '=');
+    if (!empty($tipo_producto)) {
+      $query->condition('tipo_producto', '%' . $tipo_producto . '%', 'LIKE');
     }
     if (!empty($brand)) {
       $query->condition('name_brand', $brand, '=');
     }
     if (!empty($category)) {
       $query->condition('category', $category, '=');
+
     }
-    $query->join('imagen_event', 'er', 'e.id_event = er.id_event');
+  
+    $query->join('imagen_peoductos', 'er', 'e.id_product = er.id_product');
     $query->fields('er');
+    $query->fields('e');
+  
+    $result = $query->execute()->fetchAll();
+
+    $querybrand = \Drupal::database()->select('brand_data', 'br');
+   
+
+    $querybrand->fields('br');
+    $resultbt = $querybrand->execute()->fetchAll();
+    $logo_brand = "";
+  
+    foreach ($result as $item) {
+      foreach ($resultbt as $brit) {
+
+       if($brit->brand == $item->name_brand){
+          $logo_brand = $brit->url_image_brand;
+       }
+ 
+      }
+      $response[] = [
+             'id_product' => $item->id_product,
+            'name_product' => $item->name_product,
+            'description' => $item->description,
+            'precio_unitario' => $item->precio_unitario,
+            'category' =>  $item->category,
+            'stock' => $item->stock,
+            'stock_restante' => $item->stock_restante,
+            'minima_compra' => $item->minima_compra,
+            'name_brand' => $item->name_brand,
+            'tipo_producto' => $item->tipo_producto,
+            'horas_entrega' => $item->horas_entrega,
+            'descuento_reila' => $item->descuento_reila,
+            'utilidad_neta' => $item->utilidad_neta,
+            'guia_uso_producto_url' => $item->guia_uso_producto_url,
+            'estado_producto' => $item->estado_producto ,
+            'size' =>  $item->size,
+            'color' => $item->color,
+            "url_image" => file_create_url($item->url_image),
+            "url_image_brand" => file_create_url($logo_brand),
+            "url_image_mobile" => file_create_url($item->url_image_mobile),
+      ];
+    }
+
+    return $response;
+  }
+
+  /**
+   * Get products list.
+   *
+   * @param string $city
+   *   City name.
+   * @param string $brand
+   *   Brand name.
+   * @param string $category
+   *   Category name.
+   *
+   * @return array
+   *   Array products list
+   */
+  public static function brandsList() {
+    $response = [];
+    $query = \Drupal::database()->select('brand_data', 'e');
     $query->fields('e');
     $result = $query->execute()->fetchAll();
 
     foreach ($result as $item) {
       $response[] = [
-        "id_event" => $item->id_event,
-        "name_event" => $item->name_event,
-        "points_tapit" => $item->points_tapit,
-        "name_brand" => $item->name_brand,
-        "description" => $item->description,
-        "event_city" => $item->event_city,
-        "event_address" => $item->event_address,
-        "event_status" => $item->event_status,
-        "number_tickets" => $item->number_tickets,
-        "number_tickets_remaining" => $item->number_tickets_remaining,
-        "category" => $item->category,
-        "ticket_type" => $item->ticket_type,
-        "event_date" => $item->event_date,
-        "url_landing_promo" => $item->url_landing_promo,
-        "origin_type" => $item->origin_type,
-        "url_tyc" => $item->url_tyc,
-        "require_location" => $item->require_location,
-        "require_redirect" => $item->require_redirect,
-        "created" => $item->created,
-        "size" => $item->size,
-        "color" => $item->color,
-        "status" => $item->status,
-        "id" => $item->id,
-        "url_image" => file_create_url($item->url_image),
-        "url_image_mobile" => file_create_url($item->url_image_mobile),
+             'url_image_brand' => file_create_url($item->url_image_brand),
+             'brand' => $item->brand,
       ];
     }
 
@@ -364,7 +405,7 @@ class EventApiController extends ControllerBase {
   /**
    * Get image id.
    *
-   * @param int $event_id
+   * @param int $id_product
    *   Event ID.
    * @param string $image_request
    *   Image request (d/m), d=desktop, m=mobile.
@@ -372,15 +413,15 @@ class EventApiController extends ControllerBase {
    * @return int
    *   Return image id
    */
-  public static function getImageId($event_id, $image_request) {
-    $image_uri = self::getImageData($event_id, $image_request);
+  public static function getImageId($id_product, $image_request) {
+    $image_uri = self::getImageData($id_product, $image_request);
     $fileId = 0;
     if (!empty($image_uri)) {
       $image_data_temp = explode('public://', $image_uri);
       if (count($image_data_temp) < 2) {
         $image_data_temp = explode('/', $image_uri);
         $image_name = $image_data_temp[count($image_data_temp) - 1];
-        $image_uri = 'public://ab_event/event/all/' . $image_name;
+        $image_uri = 'public://Catalogo/all/' . $image_name;
       }
       $file = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uri' => $image_uri]);
       $fileId = array_shift($file)->fid->value;
@@ -392,7 +433,7 @@ class EventApiController extends ControllerBase {
   /**
    * Get image url.
    *
-   * @param int $event_id
+   * @param int $id_product
    *   Event ID.
    * @param string $image_request
    *   Image request (d/m), d=desktop, m=mobile.
@@ -400,9 +441,9 @@ class EventApiController extends ControllerBase {
    * @return string
    *   Return image url
    */
-  public static function getImageData($event_id, $image_request) {
-    $query = \Drupal::database()->select('imagen_event', 'ie');
-    $query->condition('ie.id_event', $event_id, '=');
+  public static function getImageData($id_product, $image_request) {
+    $query = \Drupal::database()->select('imagen_peoductos', 'ie');
+    $query->condition('ie.id_product', $id_product, '=');
     if ($image_request == 'd') {
       $query->addField('ie', 'url_image', 'image_uri');
     }
@@ -477,7 +518,7 @@ class EventApiController extends ControllerBase {
     try {
       $time = \Drupal::time()->getRequestTime();
       $product_data = [
-        'id_event' => NULL,
+        'id_product' => NULL,
         'name_event' => $name,
         'points_tapit' => $tapit_points,
         'name_brand' => $brand_name,
@@ -596,10 +637,10 @@ class EventApiController extends ControllerBase {
           'id' => NULL,
           'url_image' => $url_desktop_image,
           'url_image_mobile' => $url_mobile_image,
-          'id_event' => $product['0']->id_event,
+          'id_product' => $product['0']->id_product,
         ];
 
-        return \Drupal::database()->insert('imagen_event')
+        return \Drupal::database()->insert('imagen_peoductos')
           ->fields($data_images)
           ->execute();
       }

@@ -12,19 +12,19 @@ function productos_schema() {
   $schema = [];
   $schema['productos'] = [
     'fields' => [
-      'id_event' => [
+      'id_product' => [
         'type' => 'serial',
         'not null' => TRUE,
         'description' => 'Primary Key: Unique person ID.',
       ],
-      'name_event' => [
-        'description' => 'nombre del evento',
+      'name_product' => [
+        'description' => 'nombre del producto',
         'type' => 'varchar',
         'length' => 255,
         'default' => '',
       ],
-      'points_tapit' => [
-        'description' => 'puntos tapit para acceder al eventos',
+      'precio_unitario' => [
+        'description' => 'precio unitario de el product o servicio',
         'type' => 'varchar',
         'length' => 255,
         'default' => '',
@@ -36,35 +36,23 @@ function productos_schema() {
         'default' => '',
       ],
       'description' => [
-        'description' => 'Descrpcion del evento',
+        'description' => 'Descrpcion del producto',
         'type' => 'text',
       ],
-      'event_city' => [
-        'description' => 'Ciudad del evento',
-        'type' => 'varchar',
-        'length' => 255,
-        'default' => '',
-      ],
-      'event_address' => [
-        'description' => 'Dirección del evento',
-        'type' => 'varchar',
-        'length' => 255,
-        'default' => '',
-      ],
-      'event_status' => [
-        'description' => 'Estado del evento 1:true 0:false',
-        'type' => 'int',
-        'not null' => TRUE,
-        'default' => 1,
-      ],
-      'number_tickets' => [
-        'description' => 'Número de entradas al evento',
+      'stock' => [
+        'description' => 'cantida de productos en inventario inicio',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ],
-      'number_tickets_remaining' => [
-        'description' => 'Número de entradas al evento restante',
+      'stock_restante' => [
+        'description' => 'cantida de productos restante para la venta',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'minima_compra' => [
+        'description' => 'cantida de productos restante para la venta',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
@@ -75,50 +63,46 @@ function productos_schema() {
         'length' => 255,
         'default' => '',
       ],
-      'ticket_type' => [
-        'description' => 'Pase doble o personal',
+      'tipo_producto' => [
+        'description' => 'servicios: 1, bien o insumo: 2',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ],
-      'event_date' => [
-        'description' => 'Fecha create event',
+      'horas_entrega' => [
+        'description' => 'tiempo estimado de entrega en horas',
         'type' => 'varchar',
         'length' => 255,
         'default' => '',
       ],
-      'url_landing_promo' => [
-        'description' => 'Url de la marca ',
+      'descuento_reila' => [
+        'description' => 'descuento condicionado por cantidad de compra',
         'type' => 'varchar',
         'length' => 255,
         'default' => '',
       ],
-      'origin_type' => [
-        'description' => 'Origin del evento o producto',
+
+      'utilidad_neta' => [
+        'description' => 'utilidad en porsentaje a acordado con el 5%, 10%, 20% provedor.',
         'type' => 'varchar',
         'length' => 255,
         'default' => '',
       ],
-      'url_tyc' => [
-        'description' => "Url terms and conditions",
+
+      'guia_uso_producto_url' => [
+        'description' => "url guia de uso del producto",
         'type' => 'varchar',
         'length' => 255,
         'default' => '',
       ],
-      'require_location' => [
-        'description' => "Boolean field to collect location data",
+      'estado_producto' => [
+        'description' => "ocult o muestra el producto",
         'type' => 'char',
         'length' => 1,
         'not null' => TRUE,
         'default' => 0,
       ],
-      'require_redirect' => [
-        'description' => "Boolean field to define redirection to url_landing_promo",
-        'type' => 'char',
-        'length' => 1,
-        'not null' => TRUE,
-        'default' => 0,
-      ],
+
       'size' => [
         'description' => "Product size",
         'type' => 'varchar',
@@ -131,6 +115,7 @@ function productos_schema() {
         'length' => 60,
         'default' => '',
       ],
+
       'created' => [
         'type' => 'int',
         'unsigned' => TRUE,
@@ -138,18 +123,20 @@ function productos_schema() {
         'default' => 0,
         'description' => "fechacreacion evento",
       ],
-      'status' => [
-        'description' => "Boolean field to enable/disable a event",
-        'type' => 'char',
-        'length' => 1,
+
+      'update' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
         'not null' => TRUE,
-        'default' => 1,
+        'default' => 0,
+        'description' => "fechacreacion evento",
       ],
+
     ],
-    'primary key' => ['id_event'],
+    'primary key' => ['id_product'],
   ];
 
-  $schema['imagen_event'] = [
+  $schema['imagen_peoductos'] = [
     'description' => 'imagen eventos.',
     'fields' => [
       'id' => [
@@ -169,11 +156,28 @@ function productos_schema() {
         'length' => 255,
         'default' => '',
       ],
-      'id_event' => [
+      'id_product' => [
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ],
+
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "fechacreacion evento",
+      ],
+
+      'update' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "fechacreacion evento",
+      ],
+
     ],
     'primary key' => ['id'],
   ];
@@ -216,6 +220,25 @@ function productos_schema() {
         'length' => 255,
         'default' => '',
       ],
+      'email' => [
+        'description' => 'email de la marca',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'phlone_brand' => [
+        'description' => 'telefono de la marca',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'nit_brand' => [
+        'description' => 'nit de la marca',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+
       'created' => [
         'type' => 'int',
         'unsigned' => TRUE,
@@ -223,11 +246,20 @@ function productos_schema() {
         'default' => 0,
         'description' => "fechacreacion evento",
       ],
+
+      'update' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "fechacreacion evento",
+      ],
+
     ],
     'primary key' => ['id'],
   ];
 
-  $schema['user_for_event'] = [
+  $schema['client_user'] = [
     'description' => 'usuarios eventos.',
     'fields' => [
       'id' => [
@@ -273,7 +305,8 @@ function productos_schema() {
         'type' => 'varchar',
         'length' => 100,
       ],
-      'department' => [
+
+      'estado' => [
         'description' => "Owner's department",
         'type' => 'varchar',
         'not null' => FALSE,
@@ -302,42 +335,135 @@ function productos_schema() {
         'type' => 'int',
         'not null' => FALSE,
       ],
-      'name_invited' => [
-        'description' => '',
-        'type' => 'varchar',
-        'length' => 125,
-        'default' => '',
-      ],
-      'last_name_invited' => [
-        'description' => '',
-        'type' => 'varchar',
-        'length' => 125,
-        'default' => '',
-      ],
-      'type_document_invited' => [
+    
+      'type_document' => [
         'description' => 'Tipo de documento',
         'type' => 'int',
         'default' => 0,
       ],
-      'identification_card_invited' => [
+      'identification_card' => [
         'description' => '',
         'type' => 'varchar',
         'length' => 255,
         'default' => '',
       ],
-      'email_invited' => [
-        'type' => 'varchar',
-        'length' => 200,
+      'estado_client' => [
+        'description' => "estado del cliente, define si este cliente esta bloqiado por tiempo de inatividad o se dio de alta.",
+        'type' => 'char',
+        'length' => 1,
+        'not null' => FALSE,
+        'default' => 0,
       ],
-      'phone_invited' => [
+      'phone' => [
         'type' => 'varchar',
         'length' => 100,
       ],
-      'id_event' => [
+      'id_productos' => [
+        'type' => 'text',
+        'description' => " json obj turno",
+      ],
+      'create' => [
+        'description' => 'fecha de creacion ',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+      'updte' => [
+        'description' => 'fecha de creacion ',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+  $schema['turnos'] = [
+    'description' => 'turno de producto tipo servicios.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'turno_dia' => [
+        'description' => 'se guarda turno por dia un producto de tipo servicio podra tener 8 e quivalentes a una hora cada turno  o 2 horaras  equivalente a 4 turnos al dia,  turnos por dia  ',
+        'type' => 'text',
+      ],
+      'ids_productos' => [
+        'description' => 'url change de la imagenes del evento mobile',
+        'type' => 'text',
+      ],
+      'fecha_de_turnos' => [
+        'description' => 'fecha del dia en la que se creo el listado de turnos. siendo para ese dia los turno, se deve validar que los turnos esten creados de un dia para otro.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+
+      'estado_turno' => [
+        'description' => 'un turno esta activo, reservado, o finalizado. este turno como finalizado cuando falte una hora para darse el turno ',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+
+      'create' => [
+        'description' => 'fecha de creacion ',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+
+      'updte' => [
+        'description' => 'fecha de creacion ',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['pedidos'] = [
+    'description' => 'imagen eventos.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'id_cliente' => [
+        'description' => 'url de la imagenes del evento',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+      ],
+      'ids_productos' => [
+        'description' => 'json  de productos id ',
+        'type' => 'text',
+      ],
+      'id_product' => [
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ],
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "fechacreacion evento",
+      ],
+
+      'update' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "fechacreacion evento",
+      ],
+
     ],
     'primary key' => ['id'],
   ];

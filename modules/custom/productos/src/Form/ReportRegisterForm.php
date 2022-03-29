@@ -180,22 +180,16 @@ class ReportRegisterForm extends FormBase {
     $start_date = $form_state->getValue('start_date');
     $end_date = $form_state->getValue('end_date');
     $name = trim($form_state->getValue('name'));
-    $last_name = trim($form_state->getValue('last_name'));
     $user_id = trim($form_state->getValue('user_id'));
     $email = trim($form_state->getValue('email'));
     $brand = trim($form_state->getValue('brand'));
-    $event_name = trim($form_state->getValue('event_name'));
-    $event_id = trim($form_state->getValue('event_id'));
     $session = \Drupal::request()->getSession();
     $session->set(ReportRegisterForm::$registrationStartDateSessionKey, $start_date);
     $session->set(ReportRegisterForm::$registrationEndDateSessionKey, $end_date);
     $session->set(ReportRegisterForm::$nameSessionKey, $name);
-    $session->set(ReportRegisterForm::$lastNameSessionKey, $last_name);
     $session->set(ReportRegisterForm::$emailSessionKey, $email);
     $session->set(ReportRegisterForm::$userIDSessionKey, $user_id);
     $session->set(ReportRegisterForm::$brandSessionKey, $brand);
-    $session->set(ReportRegisterForm::$eventNameSessionKey, $event_name);
-    $session->set(ReportRegisterForm::$eventIDSessionKey, $event_id);
     $form_state->setRedirect('productos.report.productos.userReportForm');
   }
 
@@ -217,37 +211,14 @@ class ReportRegisterForm extends FormBase {
 
     $header = [
       'id',
-      'register_date',
       'name',
-      'last_name',
-      'type_document',
-      'identification_card',
       'email',
       'phone',
-      'department',
-      'city',
-      'address',
-      'additional_address_information',
-      'postal_code',
-      'name_invited',
-      'last_name_invited',
-      'type_document_invited',
-      'identification_card_invited',
-      'email_invited',
-      'phone_invited',
-      'name_brand',
-      'name_event',
-      'points_tapit',
-      'city',
-      'ticket_type',
-      'size',
-      'color',
+      'Creado',
     ];
 
-    $query = \Drupal::database()->select('user_for_event', 'us');
-    $query->join('productos', 'e', 'e.id_event = us.id_event');
+    $query = \Drupal::database()->select('client_user', 'us');
     $query->fields('us');
-    $query->fields('e');
     if (!$excel) {
       $query = $query->extend('Drupal\Core\Database\Query\PagerSelectExtender');
       $query
@@ -267,28 +238,9 @@ class ReportRegisterForm extends FormBase {
       $query->condition('us.name', '%' . $search_name . '%', 'LIKE');
     }
 
-    if ($search_last_name && !$excel) {
-      $query->condition('us.last_name', '%' . $search_last_name . '%', 'LIKE');
-    }
-
-    if ($search_user_id && !$excel) {
-      $query->condition('us.identification_card', $search_user_id, '=');
-    }
-
+    
     if ($search_email && !$excel) {
       $query->condition('us.email', '%' . $search_email . '%', 'LIKE');
-    }
-
-    if ($search_brand) {
-      $query->condition('e.name_brand', $search_brand, '=');
-    }
-
-    if ($search_event_name) {
-      $query->condition('e.name_event', '%' . $search_event_name . '%', 'LIKE');
-    }
-
-    if ($search_event_id) {
-      $query->condition('e.id_event', $search_event_id, '=');
     }
 
     $result = $query
@@ -299,31 +251,10 @@ class ReportRegisterForm extends FormBase {
     foreach ($result as $item) {
       $row = [
         $item->id,
-        $date_formatter->format($item->created, 'custom', 'd/m/Y H:i:s'),
         $item->name,
-        $item->last_name,
-        $item->type_document == 1 ? 'Cédula' : 'Cédula de extranjería',
-        $item->identification_card,
         $item->email,
         $item->phone,
-        $item->department,
-        $item->city,
-        $item->address,
-        $item->additional_address_information,
-        $item->postal_code,
-        $item->name_invited,
-        $item->last_name_invited,
-        $item->type_document_invited == 1 ? 'Cédula' : 'Cédula de extranjería',
-        $item->identification_card_invited,
-        $item->email_invited,
-        $item->phone_invited,
-        $item->name_brand,
-        $item->name_event,
-        $item->points_tapit,
-        $item->event_city,
-        $item->ticket_type == 1 ? 'Doble' : 'Una persona',
-        $item->size,
-        $item->color,
+        $date_formatter->format($item->created, 'custom', 'd/m/Y H:i:s'),
       ];
       $rows[] = $row;
     }

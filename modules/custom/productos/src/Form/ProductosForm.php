@@ -60,7 +60,7 @@ class ProductosForm extends ConfigFormBase {
     $session = \Drupal::request()->getSession();
     $search_filter = $session->get(ProductosForm::$filterSessionKey);
     $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
-    $edi = !empty($request['id_evento']) ? $request['id_evento'] : NULL;
+    $edi = !empty($request['id_product']) ? $request['id_product'] : NULL;
     $delete = !empty($request['delete_id']) ? $request['delete_id'] : NULL;
     $respuesta = [];
     $user_rol = [];
@@ -76,37 +76,146 @@ class ProductosForm extends ConfigFormBase {
       $id = isset($delete) ? $delete : -1;
     }
     else {
-      $respuesta = $this->getEvent($id);
+      $respuesta = $this->getReportDataId($id);
     }
 
-    if ($id != -1) {
-      $respuesta = $this->getEvent($id);
+    if(isset($delete)) {
+      $this->deleteDateProduct($delete);
     }
-
+    
     $form['info'] = [
       '#type' => 'details',
       '#title' => t('PRODUCT CREATE'),
       '#open' => FALSE,
     ];
 
-    $form['info']['name_event'] = [
+    $form['info']['name_product'] = [
       '#title' => t('Product name'),
       '#type' => 'textfield',
-      '#default_value' => isset($respuesta[0]->name_event) ? $respuesta[0]->name_event : '',
+      '#default_value' => isset($respuesta[0]->name_product) ? $respuesta[0]->name_product : '',
       '#disabled' => FALSE,
     ];
 
-    $form['info']['url_landing_promo'] = [
-      '#title' => t('URL earn points'),
-      '#default_value' => isset($respuesta[0]->url_landing_promo) ? $respuesta[0]->url_landing_promo : '',
+    $form['info']['stock'] = [
+      '#title' => t('cantida del producto en el inventario.'),
+      '#default_value' => isset($respuesta[0]->stock) ? $respuesta[0]->stock : '',
       '#type' => 'textfield',
     ];
 
-    $form['info']['point_tapit'] = [
-      '#title' => t('Precio Unidad'),
+    if (isset($edi)) {
+      $form['info']['stock_restante'] = [
+        '#title' => t('stock restante.'),
+        '#type' => 'number',
+        '#default_value' => isset($respuesta[0]->stock_restante) ? $respuesta[0]->stock_restante : '',
+        '#disabled' => FALSE,
+      ];
+    }
+
+    $form['info']['precio_unitario'] = [
+      '#title' => t('precio Por Unidad.'),
       '#type' => 'number',
-      '#default_value' => isset($respuesta[0]->points_tapit) ? $respuesta[0]->points_tapit : '',
+      '#default_value' => isset($respuesta[0]->precio_unitario) ? $respuesta[0]->precio_unitario : '',
       '#disabled' => FALSE,
+    ];
+
+    $form['info']['minima_compra'] = [
+      '#title' => t('Minima compra.'),
+      '#type' => 'number',
+      '#default_value' => isset($respuesta[0]->minima_compra) ? $respuesta[0]->minima_compra : '',
+      '#disabled' => FALSE,
+    ];
+
+    $form['info']['horas_entrega'] = [
+      '#title' => t('Numero de horas para entregar.'),
+      '#type' => 'number',
+      '#default_value' => isset($respuesta[0]->horas_entrega) ? $respuesta[0]->horas_entrega : '',
+      '#disabled' => FALSE,
+    ];
+
+    $form['info']['descuento_reila'] = [
+      '#title' => t('descuento por compras iguales o mayores a 2 veses la minima compra  %.'),
+      '#type' => 'number',
+      '#default_value' => isset($respuesta[0]->descuento_reila) ? $respuesta[0]->descuento_reila : '',
+      '#disabled' => FALSE,
+    ];
+
+    $form['info']['utilidad_neta'] = [
+      '#title' => t('porsentaje de utilida del producto se le suma.'),
+      '#type' => 'number',
+      '#default_value' => isset($respuesta[0]->utilidad_neta) ? $respuesta[0]->utilidad_neta : '',
+      '#disabled' => FALSE,
+    ];
+
+    $form['info']['guia_uso_producto_url'] = [
+      '#title' => t('Guia Informacion tecnica del provedor no es obligatorio'),
+      '#type' => 'textfield',
+      '#default_value' => isset($respuesta[0]->guia_uso_producto_url) ? $respuesta[0]->guia_uso_producto_url : '',
+      '#disabled' => FALSE,
+    ];
+
+    $form['info']['estado_producto'] = [
+      '#type' => 'radios',
+      '#title' => t('Oculta o muestra este producto si el proveedor no cumple con los terminos del contrato.'),
+      '#default_value' => isset($respuesta[0]->estado_producto) ? $respuesta[0]->estado_producto : 1,
+      '#options' => [
+        '1' => t('Activo'),
+        '2' => t('Bloqueado'),
+      ],
+    ];
+
+
+    $form['info']['name_brand'] = [
+      '#title' => t('Brand'),
+      '#type' => 'select',
+      '#default_value' => self::getIdTaxonomy('marcas', !empty($respuesta[0]->name_brand) ? $respuesta[0]->name_brand : ''),
+      '#empty_option' => t('Select'),
+      '#options' => self::getTaxonomyList("marcas"),
+      '#attributes' => [
+        'placeholder' => t('Select'),
+        'class' => ['abi-select_control'],
+      ],
+    ];
+
+    $form['info']['size'] = [
+      '#title' => t('Unidades de medida'),
+      '#type' => 'select',
+      '#default_value' => self::getIdTaxonomy('unidades', !empty($respuesta[0]->size) ? $respuesta[0]->size : ''),
+      '#empty_option' => t('Select'),
+      '#options' => self::getTaxonomyList('unidades'),
+      '#attributes' => [
+        'placeholder' => t('Select'),
+        'class' => ['abi-select_control'],
+      ],
+    ];
+
+    $form['info']['color'] = [
+         '#type' => 'color',
+         '#title' => t('Color Del Producto'),
+         '#default_value' => $respuesta[0]->color ? $respuesta[0]->color : '',
+       ];
+
+    $form['info']['tipo_producto'] = [
+      '#title' => t('Tipo de producto'),
+      '#type' => 'select',
+      '#default_value' => self::getIdTaxonomy('producttipo', !empty($respuesta[0]->tipo_producto) ? $respuesta[0]->tipo_producto: ''),
+      '#empty_option' => t('Select'),
+      '#options' => self::getTaxonomyList('producttipo'),
+      '#attributes' => [
+        'placeholder' => t('Select'),
+        'class' => ['abi-select_control'],
+      ],
+    ];
+
+    $form['info']['category'] = [
+      '#title' => t('Categoria del producto un solo nivel.'),
+      '#type' => 'select',
+      '#default_value' => self::getIdTaxonomy('categorias', !empty($respuesta[0]->category) ? $respuesta[0]->category : ''),
+      '#empty_option' => t('Select'),
+      '#options' => self::getTaxonomyList('categorias'),
+      '#attributes' => [
+        'placeholder' => t('Select'),
+        'class' => ['abi-select_control'],
+      ],
     ];
 
     $form['info']['description'] = [
@@ -116,106 +225,19 @@ class ProductosForm extends ConfigFormBase {
       '#disabled' => FALSE,
     ];
 
-    $form['info']['number_tickets'] = [
-      '#title' => t('Stock'),
-      '#type' => 'number',
-      '#default_value' => isset($respuesta[0]->number_tickets) ? $respuesta[0]->number_tickets : '',
-      '#disabled' => FALSE,
-    ];
-
-    if (isset($edi)) {
-      $form['info']['number_tickets_remaining'] = [
-        '#title' => t('Stock available'),
-        '#type' => 'number',
-        '#default_value' => isset($respuesta[0]->number_tickets_remaining) ? $respuesta[0]->number_tickets_remaining : '',
-        '#disabled' => FALSE,
-      ];
-    }
-
-    $form['info']['ticket_type'] = [
-      '#type' => 'radios',
-      '#title' => t('Ticket type'),
-      '#default_value' => isset($respuesta[0]->ticket_type) ? $respuesta[0]->ticket_type : 1,
-      '#options' => [
-        '1' => t('Double'),
-        '2' => t('Personal'),
-      ],
-    ];
-
-    $form['info']['category'] = [
-      '#title' => t('Category'),
-      '#type' => 'select',
-      '#default_value' => self::getIdTaxonomy('category', !empty($respuesta[0]->category) ? $respuesta[0]->category : ''),
-      '#empty_option' => t('Select a category'),
-      '#options' => self::getCategory(),
-      '#attributes' => [
-        'placeholder' => t('Select'),
-        'class' => ['abi-select_control'],
-      ],
-    ];
-
-    $form['info']['dates']['event_date'] = [
-      '#title' => t('Date'),
-      '#type' => 'datetime',
-      '#disabled' => FALSE,
-      '#default_value' => isset($respuesta[0]->event_date) ? new DrupalDateTime($respuesta[0]->event_date) : NULL,
-    ];
-
-    $form['info']['event_city'] = [
-      '#title' => t('Availability city'),
-      '#type' => 'textfield',
-      '#default_value' => isset($respuesta[0]->event_city) ? $respuesta[0]->event_city : '',
-      '#disabled' => FALSE,
-    ];
-
-    if (isset($edi)) {
-      $form['info']['event_status'] = [
-        '#type' => 'checkbox',
-        '#title' => t('Deactivate?'),
-        '#description' => t('To activate/deactivate '),
-        '#default_value' => isset($respuesta[0]->event_status) != '' ? ($respuesta[0]->event_status == 0 ? 1 : 0) : '',
-      ];
-    }
-
-    $form['info']['name_brand'] = [
-      '#title' => t('Brand'),
-      '#type' => 'select',
-      '#default_value' => self::getIdTaxonomy('marcas', !empty($respuesta[0]->name_brand) ? $respuesta[0]->name_brand : ''),
-      '#empty_option' => t('Select a brand'),
-      '#options' => self::getBrand(),
-      '#attributes' => [
-        'placeholder' => t('Select'),
-        'class' => ['abi-select_control'],
-      ],
-    ];
-
-    $form['info']['event_address'] = [
-      '#title' => t('Canje address'),
-      '#type' => 'textfield',
-      '#default_value' => isset($respuesta[0]->event_address) ? $respuesta[0]->event_address : '',
-      '#disabled' => FALSE,
-    ];
-
-    $form['info']['origin_type'] = [
-      '#title' => t('Canje origin'),
-      '#type' => 'textfield',
-      '#default_value' => isset($respuesta[0]->origin_type) ? $respuesta[0]->origin_type : '',
-      '#disabled' => FALSE,
-    ];
-
     $validators = [
       'file_validate_extensions' => ['jpg jpeg png'],
       // 10 MB limit.
       'file_validate_size' => [10 * 1024 * 1024],
     ];
 
-    $form['info']['image_upload'] = [
+    $form['info']['url_image'] = [
       '#type' => 'managed_file',
       '#title' => t('Desktop image'),
       '#size' => 20,
       '#description' => t("Limit size") . ' 10 MB. ' . t('Allowed extensions') . ': jpg, png',
       '#upload_validators' => $validators,
-      '#upload_location' => 'public://ab_event/event/all/',
+      '#upload_location' => 'public://Catalogo/all/',
       '#attributes' => [
         'class' => ['inputfile'],
         'accept' => ['image/x-png,image/jpeg'],
@@ -232,13 +254,13 @@ class ProductosForm extends ConfigFormBase {
       ];
     }
 
-    $form['info']['image_upload_mobile'] = [
+    $form['info']['url_image_mobile'] = [
       '#type' => 'managed_file',
       '#title' => t('Mobile Image'),
       '#size' => 15,
       '#description' => t("Limit size") . ' 8 MB. ' . t('Allowed extensions') . ': jpg, png',
       '#upload_validators' => $validators,
-      '#upload_location' => 'public://ab_event/event/all/',
+      '#upload_location' => 'public://ab_product/product/all/',
       '#attributes' => [
         'class' => ['inputfile'],
         'accept' => ['image/x-png,image/jpeg'],
@@ -254,47 +276,6 @@ class ProductosForm extends ConfigFormBase {
         "#markup" => '<a href="' . $image_url . '" target="_blank"><img src="' . $image_url . '" width="200px" height="200px"></a>',
       ];
     }
-
-    $form['info']['url_tyc'] = [
-      '#title' => t('Url terms and conditions'),
-      '#default_value' => isset($respuesta[0]->url_tyc) ? $respuesta[0]->url_tyc : '',
-      '#type' => 'textfield',
-    ];
-
-    $form['info']['require_location'] = [
-      '#type' => 'checkbox',
-      '#title' => t('Require location?'),
-      '#description' => t('To collect location data'),
-      '#default_value' => isset($respuesta[0]->require_location) ? $respuesta[0]->require_location : '',
-    ];
-
-    $form['info']['require_redirect'] = [
-      '#type' => 'checkbox',
-      '#title' => t('Require redirect?'),
-      '#description' => t('Define redirection to url_landing_promo'),
-      '#default_value' => isset($respuesta[0]->require_redirect) ? $respuesta[0]->require_redirect : '',
-    ];
-
-    $form['info']['size'] = [
-      '#title' => t('Product size'),
-      '#default_value' => isset($respuesta[0]->size) ? $respuesta[0]->size : '',
-      '#maxlength' => 50,
-      '#type' => 'textfield',
-    ];
-
-    $form['info']['color'] = [
-      '#title' => t('Product color'),
-      '#default_value' => isset($respuesta[0]->color) ? $respuesta[0]->color : '',
-      '#maxlength' => 50,
-      '#type' => 'textfield',
-    ];
-
-    $form['info']['status'] = [
-      '#type' => 'checkbox',
-      '#title' => t('Hide canje?'),
-      '#description' => t('To hide/show the canje'),
-      '#default_value' => isset($respuesta[0]->status) != '' ? ($respuesta[0]->status == 0 ? 1 : 0) : '',
-    ];
 
     if (isset($edi)) {
       $form['info']['boton-agregar'][] = [
@@ -336,7 +317,7 @@ class ProductosForm extends ConfigFormBase {
               '#value' => $this->t('Create'),
               // '#ajax' => array(
               // 'callback' =>  '::addmoreCallback_config',
-              // 'event' => 'click',
+              // 'product' => 'click',
               // 'wrapper' => 'preset-wrapper-config',
               // ),
             ],
@@ -363,36 +344,12 @@ class ProductosForm extends ConfigFormBase {
             '#value' => $this->t('Delete'),
             '#ajax' => [
               'callback' => '::deletetarmoreCallbackConfig',
-              'event' => 'click',
+              'product' => 'click',
               'wrapper' => 'preset-wrapper-config',
             ],
           ],
         ],
-      ];
-
-      $form['info']['boton-add-config'][] = [
-        'add_option_row' => [
-          '#wrapper_attributes' => [
-            'colspan' => '3',
-            'class' => [
-              'container-inline',
-            ],
-          ],
-          '#tree' => FALSE,
-
-          // Works with ajax as supposed to.
-          'button_add' => [
-            '#type' => 'submit',
-            '#name' => 'add_preset_option_confgiw',
-            '#value' => $this->t('Create'),
-            // '#ajax' => array(
-            // 'callback' =>  '::addmoreCallback_config',
-            // 'event' => 'click',
-            // 'wrapper' => 'preset-wrapper-config',
-            // ),
-          ],
-        ],
-      ];
+      ];     
     }
 
     $form['report'] = [
@@ -447,11 +404,11 @@ class ProductosForm extends ConfigFormBase {
     $btn_action = !empty($form_state->getValues()['op']) ? strval($form_state->getValues()['op']) : '';
     if ($btn_action != t('Filter') && $btn_action != ('Clear filter')) {
       $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
-      $edi_eve = !empty($request['id_evento']) ? $request['id_evento'] : NULL;
+      $edi_eve = !empty($request['id_product']) ? $request['id_product'] : NULL;
       $delete = !empty($request['delete_id']) ? $request['delete_id'] : NULL;
 
-      if (!isset($edi_eve)) {
-        if ($form_state->getValue('category') == '') {
+     if (!isset($edi_eve)) {
+        /* if ($form_state->getValue('category') == '') {
           $form_state->setErrorByName('category', $this->t('Field Category is required'));
         }
         if ($form_state->getValue('name_brand') == '') {
@@ -463,11 +420,11 @@ class ProductosForm extends ConfigFormBase {
         if (empty($form_state->getValue(['image_upload_mobile', 0]))) {
           $form_state->setErrorByName('image_upload_mobile', $this->t('Field Mobile image is required'));
         }
-        if ($form_state->getValue('name_event') == '') {
-          $form_state->setErrorByName('name_event', $this->t('Ingrese un valor.'));
+        if ($form_state->getValue('name_product') == '') {
+          $form_state->setErrorByName('name_product', $this->t('Ingrese un valor.'));
         }
-        if ($form_state->getValue('url_landing_promo') == '') {
-          $form_state->setErrorByName('url_landing_promo', $this->t('Ingrese un valor.'));
+        if ($form_state->getValue('precio_unitario') == '') {
+          $form_state->setErrorByName('precio_unitario', $this->t('Ingrese un valor.'));
         }
         if ($form_state->getValue('description') == '') {
           $form_state->setErrorByName('description', $this->t('Ingrese un valor.'));
@@ -478,9 +435,6 @@ class ProductosForm extends ConfigFormBase {
         if ($form_state->getValue('point_tapit') == '') {
           $form_state->setErrorByName('point_tapit', $this->t('Ingrese un valor.'));
         }
-        if ($form_state->getValue('event_city') == '') {
-          $form_state->setErrorByName('event_city', $this->t('Ingrese un valor.'));
-        }
         if ($form_state->getValue('name_brand') == '') {
           $form_state->setErrorByName('name_brand', $this->t('Ingrese un valor.'));
         }
@@ -489,7 +443,7 @@ class ProductosForm extends ConfigFormBase {
         }
         if ($form_state->getValue('origin_type') == '') {
           $form_state->setErrorByName('origin_type', $this->t('Ingrese un valor.'));
-        }
+        }*/
 
         return $form_state;
       }
@@ -500,6 +454,7 @@ class ProductosForm extends ConfigFormBase {
    * Public function addmoreCallback_config(array &$form, FormStateInterface $form_state)
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
     $btn_action = strval($form_state->getValues()['op']);
     if ($btn_action == t('Filter')) {
       $filter = trim($form_state->getValue('filter'));
@@ -514,13 +469,14 @@ class ProductosForm extends ConfigFormBase {
     else {
       try {
         $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
-        $edi_eve = !empty($request['id_evento']) ? $request['id_evento'] : NULL;
+        $edi_eve = !empty($request['id_product']) ? $request['id_product'] : NULL;
         $delete = !empty($request['delete_id']) ? $request['delete_id'] : NULL;
         $brand = Term::load($form_state->getValue('name_brand'))->get('name')->value;
         $category = Term::load($form_state->getValue('category'))->get('name')->value;
+        $size = Term::load($form_state->getValue('size'))->get('name')->value;
 
-        $fid = $form_state->getValue(['image_upload', 0]);
-        $fidMobile = $form_state->getValue(['image_upload_mobile', 0]);
+        $fid = $form_state->getValue(['url_image', 0]);
+        $fidMobile = $form_state->getValue(['url_image_mobile', 0]);
         $fileDesk = File::load($fid);
         $fileMobie = File::load($fidMobile);
         $urlDes = $fileDesk->getFileUri();
@@ -529,31 +485,28 @@ class ProductosForm extends ConfigFormBase {
         if ($edi_eve) {
           $id = \Drupal::database()->update('productos')
             ->fields([
-              'name_event' => $form_state->getValue('name_event'),
+              'name_product' => $form_state->getValue('name_product'),
               'description' => $form_state->getValue('description'),
-              'number_tickets' => $form_state->getValue('number_tickets'),
-              'number_tickets_remaining' => $form_state->getValue('number_tickets_remaining'),
-              'points_tapit' => $form_state->getValue('point_tapit'),
-              'event_city' => $form_state->getValue('event_city'),
+              'precio_unitario' => $form_state->getValue('precio_unitario'),
+              'precio_unitario' => $form_state->getValue('precio_unitario'),
               'category' => $category,
-              'origin_type' => $form_state->getValue('origin_type'),
+              'stock' => $form_state->getValue('stock'),
+              'stock_restante' => $form_state->getValue('stock_restante'),
+              'minima_compra' => $form_state->getValue('minima_compra'),
               'name_brand' => $brand,
-              'url_landing_promo' => $form_state->getValue('url_landing_promo'),
-              'event_address' => $form_state->getValue('event_address'),
-              'ticket_type' => $form_state->getValue('ticket_type') == 1 ? 1 : 2,
-              'event_date' => $form_state->getValue('event_date'),
-              'event_status' => $form_state->getValue('event_status') == 0 ? 1 : 0,
-              'url_tyc' => $form_state->getValue('url_tyc'),
-              'require_location' => $form_state->getValue('require_location'),
-              'require_redirect' => $form_state->getValue('require_redirect'),
-              'size' => $form_state->getValue('size'),
+              'tipo_producto' => $form_state->getValue('tipo_producto') == 1 ? 1 : 2,
+              'horas_entrega' => $form_state->getValue('horas_entrega'),
+              'descuento_reila' => $form_state->getValue('descuento_reila'),
+              'utilidad_neta' => $form_state->getValue('utilidad_neta'),
+              'guia_uso_producto_url' => $form_state->getValue('guia_uso_producto_url'),
+              'estado_producto' => $form_state->getValue('estado_producto') == 1 ? 1 : 2,
+              'size' => $size,
               'color' => $form_state->getValue('color'),
               'created' => \Drupal::time()->getRequestTime(),
-              'status' => $form_state->getValue('status') == 0 ? 1 : 0,
-            ])->condition('id_event', $edi_eve, '=')
+            ])->condition('id_product', $edi_eve, '=')
             ->execute();
 
-          $this->editEventImage($urlDes, $urlMobile, $edi_eve);
+          $this->editproductImage($urlDes, $urlMobile, $edi_eve);
 
           return $form;
         }
@@ -564,37 +517,34 @@ class ProductosForm extends ConfigFormBase {
         $fileMobie->save();
 
         $id = \Drupal::database()->insert('productos')
-          ->fields([
-            'name_event' => $form_state->getValue('name_event'),
-            'description' => $form_state->getValue('description'),
-            'number_tickets' => $form_state->getValue('number_tickets'),
-            'number_tickets_remaining' => $form_state->getValue('number_tickets'),
-            'points_tapit' => $form_state->getValue('point_tapit'),
-            'event_city' => $form_state->getValue('event_city'),
-            'category' => $category,
-            'name_brand' => $brand,
-            'origin_type' => $form_state->getValue('origin_type'),
-            'url_landing_promo' => $form_state->getValue('url_landing_promo'),
-            'event_address' => $form_state->getValue('event_address'),
-            'ticket_type' => $form_state->getValue('ticket_type') == 1 ? 1 : 2,
-            'event_date' => $form_state->getValue('event_date'),
-            'event_status' => $form_state->getValue('event_status') == 0 ? 1 : 0,
-            'url_tyc' => $form_state->getValue('url_tyc'),
-            'require_location' => $form_state->getValue('require_location'),
-            'require_redirect' => $form_state->getValue('require_redirect'),
-            'size' => $form_state->getValue('size'),
-            'color' => $form_state->getValue('color'),
-            'created' => \Drupal::time()->getRequestTime(),
-            'status' => $form_state->getValue('status') == 0 ? 1 : 0,
-          ])
+        ->fields([
+          'name_product' => $form_state->getValue('name_product'),
+          'description' => $form_state->getValue('description'),
+          'precio_unitario' => $form_state->getValue('precio_unitario'),
+          'precio_unitario' => $form_state->getValue('precio_unitario'),
+          'category' => $category,
+          'stock' => $form_state->getValue('stock'),
+          'stock_restante' => $form_state->getValue('stock'),
+          'minima_compra' => $form_state->getValue('minima_compra'),
+          'name_brand' => $brand,
+          'tipo_producto' => $form_state->getValue('tipo_producto') == 1 ? 1 : 2,
+          'horas_entrega' => $form_state->getValue('horas_entrega'),
+          'descuento_reila' => $form_state->getValue('descuento_reila'),
+          'utilidad_neta' => $form_state->getValue('utilidad_neta'),
+          'guia_uso_producto_url' => $form_state->getValue('guia_uso_producto_url'),
+          'estado_producto' => $form_state->getValue('estado_producto') == 1 ? 1 : 2,
+          'size' => $size,
+          'color' => $form_state->getValue('color'),
+          'created' => \Drupal::time()->getRequestTime(),
+        ])
           ->execute();
 
-        $this->addImagenEvent($urlDes, $urlMobile, $id);
+        $this->addImagenproduct($urlDes, $urlMobile, $id);
 
         return $form;
       }
       catch (Exception $e) {
-        \Drupal::logger('ABI-INBEV event insert')->info("event insert config" . print_r($e, 1));
+        \Drupal::logger('ABI-INBEV product insert')->info("product insert config" . print_r($e, 1));
       }
     }
   }
@@ -608,29 +558,37 @@ class ProductosForm extends ConfigFormBase {
 
     $rows = [];
     $header = [
+      t('id'),
       t('Product name'),
       t('Description'),
-      t('Tickets number'),
-      t('Tapit points'),
-      t('Availability city'),
+      t('precio unitario'),
+      t('stock'),
+      t('stock restante'),
+      t('minima compra'),
       t('Sponsor brand'),
-      t('Tickets type'),
-      t('Date'),
-      t('Deactivate?'),
+      t('tipo producto'),
+      t('horas entrega'),
+      t('descuento por 2 veses la minima compra%'),
+      t('created'),
       t('Edit'),
+      t('delete'),
     ];
 
     $query = \Drupal::database()->select('productos', 'pt');
     $query->fields('pt', [
-      'id_event',
-      'name_event',
+      'id_product',
+      'name_product',
       'description',
-      'number_tickets', 'points_tapit',
-      'event_city',
+      'precio_unitario',
+      'stock',
+      'stock_restante',
+      'minima_compra',
       'name_brand',
-      'ticket_type',
-      'event_date',
+      'tipo_producto',
+      'horas_entrega',
+      'descuento_reila',
       'created',
+      'size'
     ]);
     if (!$excel) {
       $query = $query->extend('Drupal\Core\Database\Query\PagerSelectExtender');
@@ -642,14 +600,13 @@ class ProductosForm extends ConfigFormBase {
     if ($search_filter) {
       $or = $query->orConditionGroup();
       $or
-        ->condition('name_event', '%' . $search_filter . '%', 'LIKE')
-        ->condition('event_city', '%' . $search_filter . '%', 'LIKE')
+        ->condition('name_product', '%' . $search_filter . '%', 'LIKE')
         ->condition('name_brand', '%' . $search_filter . '%', 'LIKE');
       $query->condition($or);
     }
 
     $result = $query
-      ->orderBy('name_event', 'ASC')
+      ->orderBy('name_product', 'ASC')
       ->execute();
 
     $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
@@ -657,20 +614,25 @@ class ProductosForm extends ConfigFormBase {
     $date_formatter = \Drupal::service('date.formatter');
 
     foreach ($result as $item) {
-      $event_date = new DrupalDateTime($item->event_date);
-      $delete = Url::fromUserInput('/admin/config/event?delete_id=' . $item->id_event . '&page=' . $page);
-      $edit = Url::fromUserInput('/admin/config/event?id_evento=' . $item->id_event . '&page=' . $page);
+      $created = new DrupalDateTime($item->created);
+      $delete = Url::fromUserInput('/admin/config/product?delete_id=' . $item->id_product . '&page=' . $page);
+      $edit = Url::fromUserInput('/admin/config/product?id_product=' . $item->id_product . '&page=' . $page);
       $row = [
-        $item->name_event,
-        substr($item->description, 0, 150) . '...',
-        $item->number_tickets,
-        $item->points_tapit,
-        $item->event_city,
-        $item->name_brand,
-        $item->ticket_type == 1 ? t('Double') : t('Personal'),
-        $date_formatter->format($event_date->getTimestamp(), 'custom', 'd/m/Y H:i:s'),
-        Link::fromTextAndUrl(t('Deactivate product'), $delete),
-        Link::fromTextAndUrl(t('Edit'), $edit),
+     $item->id_product,
+     $item->name_product,
+     $item->description,
+     '$'.$item->precio_unitario,
+     $item->stock." - ".$item->size,
+     $item->stock_restante." - ".$item->size,
+     $item->minima_compra." - ".$item->size,
+     $item->name_brand,
+     $item->tipo_producto,
+     $item->horas_entrega,
+     $item->descuento_reila.'%',
+     $item->created,
+     $date_formatter->format($created->getTimestamp(), 'custom', 'd/m/Y H:i:s'),
+     Link::fromTextAndUrl(t('Edit'), $edit),
+     Link::fromTextAndUrl(t('delete'), $delete),
       ];
       $rows[] = $row;
     }
@@ -678,11 +640,38 @@ class ProductosForm extends ConfigFormBase {
     return [$header, $rows];
   }
 
+   /**
+   * Function.
+   */
+  public static function getReportDataId($id) {
+    $query = \Drupal::database()->select('productos', 'p');
+    $query->condition('id_product', $id, '=');
+    $query->fields('p');
+    $result = $query->execute()->fetchAll();
+
+    return $result;
+  }
+
+    /**
+   * To get all cities from taxonomies.
+   */
+  public function deleteDateProduct($id) {
+    $database = \Drupal::database();
+    $query = $database->delete('productos');
+    // Add extra detail to this query object: a condition, fields and a range.
+    $query->condition('id_product', $id, '=');
+   
+    $respu = $query->execute();
+
+    return $respu;
+  }
+
+
   /**
    * To get all cities from taxonomies.
    */
-  private function getBrand() {
-    $vid = 'marcas';
+  private function getTaxonomyList($name) {
+    $vid = $name;
     $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid);
     $term_data = [];
     foreach ($terms as $term) {
@@ -721,230 +710,29 @@ class ProductosForm extends ConfigFormBase {
   }
 
   /**
-   * Add imagen for event.
+   * Add imagen for product.
    */
-  public function editEventImage($urlDes, $urlMobile, $id) {
-    \Drupal::database()->update('imagen_event')
+  public function editproductImage($urlDes, $urlMobile, $id) {
+    \Drupal::database()->update('imagen_peoductos')
       ->fields([
         'url_image' => $urlDes,
         'url_image_mobile' => $urlMobile,
-        'id_event' => $id,
-      ])->condition('id_event', $id, '=')
+      ])->condition('id_product', $id, '=')
       ->execute();
   }
 
   /**
-   * Add imagen for event.
+   * Add imagen for product.
    */
-  public function addImagenEvent($urlDes, $urlMobile, $id) {
-    \Drupal::database()->insert('imagen_event')
+  public function addImagenproduct($urlDes, $urlMobile, $id) {
+    \Drupal::database()->insert('imagen_peoductos')
       ->fields([
         'url_image' => $urlDes,
         'url_image_mobile' => $urlMobile,
-        'id_event' => $id,
+        'id_product' => $id,
       ])
       ->execute();
   }
 
-  /**
-   * To get all ac.
-   */
-  public function getConfigBloque() {
-    $database = \Drupal::database();
-    $query = $database->select('productos', 'ev');
-    $query->fields('ev', [
-      'id_event',
-      'name_event',
-      'description',
-      'number_tickets',
-      'points_tapit',
-      'event_city',
-      'name_brand',
-      'ticket_type',
-      'event_date',
-      'created',
-    ]);
-    $respu = $query->execute();
-
-    $rows = [];
-    $id = 0;
-
-    foreach ($respu as $try) {
-      $delete = Url::fromUserInput('/admin/config/event?delete_id=' . $try->id_event);
-      $edit = Url::fromUserInput('/admin/config/event?id_evento=' . $try->id_event);
-      $rows[$id] = [
-        $try->name_event,
-        var_export(substr($try->description, 0, 150), TRUE) . '  ...',
-        $try->number_tickets,
-        $try->points_tapit,
-        $try->event_city,
-        $try->name_brand,
-        $try->ticket_type == 1 ? 'Boletos Doble' : 'Boletos personales',
-        $try->event_date,
-        Link::fromTextAndUrl('inactivar producto', $delete),
-        Link::fromTextAndUrl('Edit', $edit),
-      ];
-      $id = $id + 1;
-    }
-
-    return $rows;
-  }
-
-  /**
-   * Function.
-   */
-  public function editMoreCallbackConfig(array &$form, FormStateInterface $form_state) {
-    try {
-      $fid = $form_state->getValue(['image_upload', 0]);
-      $fidMobile = $form_state->getValue(['image_upload_mobile', 0]);
-      // $ash = ash('sa256', $form_state->getValue('dni').$fid . $salt);
-      $fileDesk = File::load($fid);
-      $fileMobie = File::load($fidMobile);
-      // $ash = ash('sa256', $form_state->getValue('dni').$fid . $salt);
-      $urlDes = file_create_url($fileDesk->getFileUri());
-      $urlMobile = file_create_url($fileMobie->getFileUri());
-
-      $edi = \Drupal::request()->request->get('id_evento');
-      $id = \Drupal::database()->update('productos')
-        ->fields([
-          'name_event' => $form_state->getValue('name_event'),
-          'description' => $form_state->getValue('description'),
-          'number_tickets' => $form_state->getValue('number_tickets'),
-          'number_tickets_remaining' => $form_state->getValue('number_tickets'),
-          'points_tapit' => $form_state->getValue('point_tapit'),
-          'event_city' => $form_state->getValue('event_city'),
-          'event_address' => $form_state->getValue('event_address'),
-          'ticket_type' => $form_state->getValue('ticket_type') == 1 ? 1 : 2,
-          'event_date' => $form_state->getValue('event_date'),
-          'created' => \Drupal::time()->getRequestTime(),
-        ])->condition('id_event', $edi, '=')
-        ->execute();
-
-      $this->addImagenEvent($urlDes, $urlMobile, $id);
-
-      return $this->getConfigBloque();
-    }
-    catch (Exception $e) {
-      \Drupal::logger('ABI-INBEV log SSo insert')->info("sso insert config" . print_r($e, 1));
-    }
-  }
-
-  /**
-   * To get all cities from taxonomies.
-   */
-  public function allConfigBloque() {
-    $database = \Drupal::database();
-    $query = $database->select('productos', 'ev');
-    $query->fields('ev', [
-      'id_event',
-      'name_event',
-      'description',
-      'number_tickets',
-      'ticket_type',
-      'event_date',
-      'created',
-    ]);
-    $respu = $query->execute();
-
-    $respu = $query->execute();
-
-    $term_data = [];
-    foreach ($respu as $term) {
-      $term_data[$term->id] = '<tr><td>' . $term->id . '</td>' . '<td>' . $term->created . '</td>' . '<td>' . $term->url_btn . '</td>' . '<td>' . $term->texto_btn . '</td>' . '<td>' . $term->color_btn . '</td>' . '<td>' . $term->etiqueta_html . '</td>' . '<td>' . $term->id_sso_config . '</td>' . '<td>' . $term->css_stylos . '</td>' . '<td>' . $term->titulo_bloque . '</td></tr>';
-    }
-
-    return $term_data;
-  }
-
-  /**
-   * To get all cities from taxonomies.
-   */
-  public function getEvent($id) {
-    $database = \Drupal::database();
-    $query = $database->select('productos', 'eve');
-    // Add extra detail to this query object: a condition, fields and a range.
-    $query->condition('id_event', $id, '=');
-    $query->fields('eve', [
-      'name_event',
-      'description',
-      'number_tickets',
-      'number_tickets_remaining',
-      'points_tapit',
-      'event_city',
-      'name_brand',
-      'category',
-      'origin_type',
-      'url_landing_promo',
-      'event_address',
-      'ticket_type',
-      'event_date',
-      'event_status',
-      'url_tyc',
-      'require_location',
-      'require_redirect',
-      'size',
-      'color',
-      'status',
-    ]);
-
-    $respu = $query->execute()->fetchAll();
-
-    return $respu;
-  }
-
-  /**
-   * Function.
-   */
-  public function editMoreCallbackEvent(array &$form, FormStateInterface $form_state) {
-    try {
-      $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
-      $edi_eve = $request['id_evento'];
-      $delete = $request['delete_id'];
-      $fid = $form_state->getValue(['image_upload', 0]);
-      $fidMobile = $form_state->getValue(['image_upload_mobile', 0]);
-      // $ash = ash('sa256', $form_state->getValue('dni').$fid . $salt);
-      $fileDesk = File::load($fid);
-      $fileMobie = File::load($fidMobile);
-      // $ash = ash('sa256', $form_state->getValue('dni').$fid . $salt);
-      $urlDes = file_create_url($fileDesk->getFileUri());
-      $urlMobile = file_create_url($fileMobie->getFileUri());
-
-      $id = \Drupal::database()->update('productos')
-        ->fields([
-          'name_event' => $form_state->getValue('name_event'),
-          'description' => $form_state->getValue('description'),
-          'number_tickets' => $form_state->getValue('number_tickets'),
-          'number_tickets_remaining' => $form_state->getValue('number_tickets'),
-          'points_tapit' => $form_state->getValue('point_tapit'),
-          'event_city' => $form_state->getValue('event_city'),
-          'event_address' => $form_state->getValue('event_address'),
-          'ticket_type' => $form_state->getValue('ticket_type') == 1 ? 1 : 2,
-          'event_date' => $form_state->getValue('event_date'),
-          'created' => \Drupal::time()->getRequestTime(),
-        ])->condition('id_event', $edi_eve, '=')
-        ->execute();
-
-      $this->addImagenEvent($urlDes, $urlMobile, $id);
-    }
-    catch (Exception $e) {
-      \Drupal::logger('ABI-INBEV log SSo insert')->info("sso insert config" . print_r($e, 1));
-    }
-  }
-
-  /**
-   * Function.
-   */
-  public function deletetarmoreCallbackConfig(array &$form, FormStateInterface $form_state) {
-    try {
-      $delete = \Drupal::request()->request->get('delete_id');
-      $id_evento = \Drupal::database()->delete('sso_config')
-        ->condition('id_sso_config', $delete, '=')
-        ->execute();
-      return $this->getConfigBloque();
-    }
-    catch (Exception $e) {
-      \Drupal::logger('ABI-INBEV log SSo insert')->info("sso insert config" . print_r($e, 1));
-    }
-  }
 
 }

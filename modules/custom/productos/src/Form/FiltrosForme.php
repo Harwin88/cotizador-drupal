@@ -81,7 +81,6 @@ class FiltrosForme extends FormBase {
     return $form['color_wrapper'];
     }
     public function submitForm(array &$form, FormStateInterface $form_state) {
-      header("Location: https://localhost:49155/Catalogos?brand=solen");
-      die();
+     return $form;
     }
 }

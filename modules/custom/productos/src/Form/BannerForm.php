@@ -49,7 +49,7 @@ class BannerForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
-    $edi = $request['id_banner'];
+    $delete = $request['delete_id'];
     // $delete = $request['delete_id'];
     $respuesta = [];
     $user_rol = [];
@@ -57,25 +57,11 @@ class BannerForm extends ConfigFormBase {
     $id = isset($edi) ? $edi : -1;
     // $id = 0;
     $user_rol = \Drupal::currentUser()->getRoles();
-    $id = isset($edi) ? $edi : -1;
+  
 
-    if ($user_rol[1] == "operaciones") {
-
-      $form['#attached']['library'][] = 'productos/productos';
-
-    }
-
-    if ($id == -1) {
-
-      $id = isset($delete) ? $delete : -1;
-
-    }
-    else {
-      $respuesta = $this->getBanner($id);
-    }
-
-    if ($id != -1) {
-      $respuesta = $this->getBanner($id);
+   
+    if (isset($delete)) {
+      $respuesta = $this->deleteDataBrand($delete);
     }
 
     $form['contactform'] = [
@@ -142,6 +128,28 @@ class BannerForm extends ConfigFormBase {
       ],
 
     ];
+
+    $form['banner_brand']['email'] = [
+      '#title' => 'email de la marca',
+      '#type' => 'email',
+      '#default_value' => isset($respuesta[0]->email) ? $respuesta[0]->email : '',
+      '#disabled' => FALSE,
+    ];
+
+    $form['banner_brand']['phlone_brand'] = [
+      '#title' => 'celular de la marca',
+      '#type' => 'number',
+      '#default_value' => isset($respuesta[0]->phlone_brand) ? $respuesta[0]->phlone_brand : '',
+      '#disabled' => FALSE,
+    ];
+
+    $form['banner_brand']['nit_brand'] = [
+      '#title' => 'nit de la marca',
+      '#type' => 'number',
+      '#default_value' => isset($respuesta[0]->nit_brand) ? $respuesta[0]->nit_brand : '',
+      '#disabled' => FALSE,
+    ];
+
 
     $form['banner_brand']['text_one'] = [
       '#title' => 'Texto principal del banner',
@@ -351,9 +359,13 @@ class BannerForm extends ConfigFormBase {
             'url_banner' => $urlDes,
             'copy1' => $form_state->getValue('text_one'),
             'copy2' => $form_state->getValue('text_two'),
+            'email' => $form_state->getValue('email'),
+            'phlone_brand' => $form_state->getValue('phlone_brand'),
+            'nit_brand' => $form_state->getValue('nit_brand'),
             'brand' => $brand,
             'url_image_brand' => $urlDes_brand,
             'created' => \Drupal::time()->getRequestTime(),
+            'update' => \Drupal::time()->getRequestTime(),
           ])
           ->execute();
         return $form;
@@ -362,7 +374,10 @@ class BannerForm extends ConfigFormBase {
         $id = \Drupal::database()->update('brand_data')
           ->fields([
             'copy1' => $form_state->getValue('text_one'),
-            'copy2' => $form_state->getValue('text_two'),
+            'copy2' => $form_state->getValue('text_two'), 
+            'email' => $form_state->getValue('email'),
+            'phlone_brand' => $form_state->getValue('phlone_brand'),
+            'nit_brand' => $form_state->getValue('nit_brand'),
             'brand' => $brand,
             'url_banner' => $urlDes,
             'created' => \Drupal::time()->getRequestTime(),
@@ -375,6 +390,9 @@ class BannerForm extends ConfigFormBase {
             ->fields([
               'copy1' => $form_state->getValue('text_one'),
               'copy2' => $form_state->getValue('text_two'),
+              'email' => $form_state->getValue('email'),
+              'phlone_brand' => $form_state->getValue('phlone_brand'),
+              'nit_brand' => $form_state->getValue('nit_brand'),
               'brand' => $brand,
               'url_image_brand' => $urlDes_brand,
               'created' => \Drupal::time()->getRequestTime(),
@@ -386,6 +404,9 @@ class BannerForm extends ConfigFormBase {
             ->fields([
               'copy1' => $form_state->getValue('text_one'),
               'copy2' => $form_state->getValue('text_two'),
+              'email' => $form_state->getValue('email'),
+              'phlone_brand' => $form_state->getValue('phlone_brand'),
+              'nit_brand' => $form_state->getValue('nit_brand'),
               'brand' => $brand,
               'created' => \Drupal::time()->getRequestTime(),
             ])->condition('id', $edi_banner, '=')->execute();
@@ -423,6 +444,9 @@ class BannerForm extends ConfigFormBase {
       'url_banner',
       'copy1',
       'copy2',
+      'email',
+      'phlone_brand',
+      'nit_brand',
       'brand',
     ]);
     $respu = $query->execute();
@@ -437,8 +461,10 @@ class BannerForm extends ConfigFormBase {
         $try->url_banner,
         $try->copy1,
         $try->copy2,
-        $try->brand,
-        Link::fromTextAndUrl('inactivar banner', $delete),
+        $try->email,
+        $try->phlone_brand,
+        $try->nit_brand,
+        $try->brand,        Link::fromTextAndUrl('inactivar banner', $delete),
         Link::fromTextAndUrl('Edit', $edit),
       ];
       $id        = $id + 1;
@@ -458,6 +484,9 @@ class BannerForm extends ConfigFormBase {
     $query->fields('banner', [
       'copy1',
       'copy2',
+      'email',
+      'phlone_brand',
+      'nit_brand',
       'brand',
     ]);
 
@@ -465,6 +494,21 @@ class BannerForm extends ConfigFormBase {
 
     return $respu;
   }
+
+  /**
+   * To get all cities from taxonomies.
+   */
+  public function deleteDataBrand($id) {
+    $database = \Drupal::database();
+    $query = $database->delete('brand_data');
+    // Add extra detail to this query object: a condition, fields and a range.
+    $query->condition('id', $id, '=');
+   
+    $respu = $query->execute();
+
+    return $respu;
+  }
+
 
   /**
    * To get all cities from taxonomies.

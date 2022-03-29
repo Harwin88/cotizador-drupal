@@ -27,8 +27,10 @@ function theme_generate_preprocess_block__catalogo(&$variables) {
   
     $category = !empty($request['category']) ? $request['category'] : NULL;
     $response = EventApiController::productsList($city, $brand, $category);
+    $brand_date = EventApiController::brandsList();
     $variables['path'] = \Drupal::service('path.current')->getPath();
     $variables['catalogo_obj'] = $response;
+  
     $variables['#cache']['max-age'] = 0;
  
 }
@@ -41,7 +43,9 @@ function theme_generate_preprocess(&$variables) {
     
   $form = \Drupal::formBuilder()->getForm('Drupal\productos\Form\FiltrosForme');
   $form_register = \Drupal::formBuilder()->getForm('Drupal\productos\Form\UserClientForm');
-
+  $brand_date = EventApiController::brandsList();
+ 
+  $variables['brand_obj'] = $brand_date;
   $variables['form_register'] = $form_register;
   $variables['filter'] = $form;
 }

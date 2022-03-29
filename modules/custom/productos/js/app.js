@@ -16,4 +16,7 @@ $(document).ready(function () {
        });
        excel.generate();
     });
+
+    alert($("#").vl());
+
 });

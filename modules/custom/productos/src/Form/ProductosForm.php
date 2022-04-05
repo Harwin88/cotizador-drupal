@@ -238,6 +238,7 @@ class ProductosForm extends ConfigFormBase {
       '#description' => t("Limit size") . ' 10 MB. ' . t('Allowed extensions') . ': jpg, png',
       '#upload_validators' => $validators,
       '#upload_location' => 'public://Catalogo/all/',
+      '#multiple' => TRUE,
       '#attributes' => [
         'class' => ['inputfile'],
         'accept' => ['image/x-png,image/jpeg'],

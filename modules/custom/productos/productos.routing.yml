@@ -57,7 +57,7 @@ productos.settings_form:
     _permission: 'access productos'
 
 productos.banner_form:
-  path: '/admin/banner/events'
+  path: '/admin/banner/brand'
   defaults:
     _title: 'Banner eventos'
     _form: 'Drupal\productos\Form\BannerForm'

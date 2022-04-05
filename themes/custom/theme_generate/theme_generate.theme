@@ -1,3 +1,4 @@
+
 <?php
 use Drupal\productos\Controller\EventApiController;
 use Drupal\Core\Form\FormStateInterface;
@@ -37,6 +38,9 @@ function theme_generate_preprocess_block__catalogo(&$variables) {
 
 
 function theme_generate_preprocess(&$variables) {
+  $user_rol = \Drupal::currentUser()->getRoles();
+
+  
   $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
   $variables['path'] = \Drupal::service('path.current')->getPath();
   $variables['brand'] = !empty($request['brand']) ? $request['brand'] : NULL;
@@ -44,10 +48,12 @@ function theme_generate_preprocess(&$variables) {
   $form = \Drupal::formBuilder()->getForm('Drupal\productos\Form\FiltrosForme');
   $form_register = \Drupal::formBuilder()->getForm('Drupal\productos\Form\UserClientForm');
   $brand_date = EventApiController::brandsList();
- 
+  if(strcmp($user_rol[1],  "administrator") == 0  ){
+   $variables['#attached']['library'][] = 'theme_generate/dasboar-admin';
+  }
+
+  $variables['rol_actual'] = $user_rol[1];
   $variables['brand_obj'] = $brand_date;
   $variables['form_register'] = $form_register;
   $variables['filter'] = $form;
 }
-
-

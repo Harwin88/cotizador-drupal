@@ -50,7 +50,7 @@ class BannerForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $request = array_merge(\Drupal::request()->request->all(), \Drupal::request()->query->all());
     $delete = $request['delete_id'];
-    // $delete = $request['delete_id'];
+   $edi = $request['id_banner'];
     $respuesta = [];
     $user_rol = [];
     $id = 0;
@@ -63,6 +63,12 @@ class BannerForm extends ConfigFormBase {
     if (isset($delete)) {
       $respuesta = $this->deleteDataBrand($delete);
     }
+
+
+    if (isset($edi)) {
+      $respuesta = $this->getBanner($edi);
+    }
+    
 
     $form['contactform'] = [
       '#type' => 'vertical_tabs',
@@ -93,29 +99,12 @@ class BannerForm extends ConfigFormBase {
       'file_validate_size' => [10 * 1024 * 1024],
     ];
 
-    $form['banner_brand']['image_banner'] = [
-      '#type' => 'managed_file',
-      '#name' => 'Sube una imagen para el Banner',
-      '#title' => t('Sube una imagen para el Banner'),
-      '#size' => 15,
-      '#required' => TRUE,
-      '#description' => "Peso máximo 8 MB. jpg, png",
-      '#upload_validators' => $validators,
-      '#upload_location' => 'public://ab_event/event/all/',
-      '#suffix' => '<label for="files[image_upload]">Peso máximo 8 MB. jpg, png</label>',
-      '#attributes' => [
-        'class' => ['inputfile'],
-        'accept' => ['image/x-png,image/jpeg'],
-        'class' => ['abi-file_control'],
-      ],
-
-    ];
-
     $form['banner_brand']['url_image_brand'] = [
       '#type' => 'managed_file',
       '#name' => 'Logo de la marca',
       '#title' => t('Logo de la marca'),
       '#size' => 15,
+      '#multiple' => TRUE,
       '#required' => TRUE,
       '#description' => "Peso máximo 8 MB. jpg, png",
       '#upload_validators' => $validators,
@@ -345,74 +334,53 @@ class BannerForm extends ConfigFormBase {
       $brand = Term::load($form_state->getValue('name_brand'))->get('name')->value;
       $fid = $form_state->getValue(['image_banner', 0]);
       $fid_brand = $form_state->getValue(['url_image_brand', 0]);
-      $fileDesk = File::load($fid);
-      $fileDesk->setPermanent();
-      $fileDesk->save();
+     
       $brand_url = File::load($fid_brand);
-      $fileDesk->setPermanent();
-      $fileDesk->save();
-      $urlDes = file_create_url($fileDesk->getFileUri());
-      $urlDes_brand = file_create_url($brand_url->getFileUri());
+      $url_brand = $brand_url->getFileUri();
+     //$url_brand->setPermanent();
+     //$url_brand->save();
+    
+      
       if (!$edi_banner) {
+      
         $id = \Drupal::database()->insert('brand_data')
           ->fields([
-            'url_banner' => $urlDes,
             'copy1' => $form_state->getValue('text_one'),
             'copy2' => $form_state->getValue('text_two'),
             'email' => $form_state->getValue('email'),
             'phlone_brand' => $form_state->getValue('phlone_brand'),
             'nit_brand' => $form_state->getValue('nit_brand'),
             'brand' => $brand,
-            'url_image_brand' => $urlDes_brand,
+            'url_image_brand' => $url_brand,
             'created' => \Drupal::time()->getRequestTime(),
             'update' => \Drupal::time()->getRequestTime(),
           ])
           ->execute();
         return $form;
       }
-      if ($urlDes != '' && $edi_banner != '') {
+
+      if($edi_banner != ''){
         $id = \Drupal::database()->update('brand_data')
-          ->fields([
-            'copy1' => $form_state->getValue('text_one'),
-            'copy2' => $form_state->getValue('text_two'), 
-            'email' => $form_state->getValue('email'),
-            'phlone_brand' => $form_state->getValue('phlone_brand'),
-            'nit_brand' => $form_state->getValue('nit_brand'),
-            'brand' => $brand,
-            'url_banner' => $urlDes,
-            'created' => \Drupal::time()->getRequestTime(),
-          ])->condition('id', $edi_banner, '=')->execute();
-        return $form;
+        ->fields([
+          'copy1' => $form_state->getValue('text_one'),
+          'copy2' => $form_state->getValue('text_two'), 
+          'email' => $form_state->getValue('email'),
+          'phlone_brand' => $form_state->getValue('phlone_brand'),
+          'nit_brand' => $form_state->getValue('nit_brand'),
+          'update' => \Drupal::time()->getRequestTime(),
+        ])->condition('id', $edi_banner, '=')->execute();
       }
-      else {
-        if ($urlDes_brand != '' && $edi_banner != '') {
+      
+        if ($url_brand != '') {
           $id = \Drupal::database()->update('brand_data')
             ->fields([
-              'copy1' => $form_state->getValue('text_one'),
-              'copy2' => $form_state->getValue('text_two'),
-              'email' => $form_state->getValue('email'),
-              'phlone_brand' => $form_state->getValue('phlone_brand'),
-              'nit_brand' => $form_state->getValue('nit_brand'),
-              'brand' => $brand,
-              'url_image_brand' => $urlDes_brand,
-              'created' => \Drupal::time()->getRequestTime(),
+              'url_image_brand' => $url_brand,
+              'update' => \Drupal::time()->getRequestTime(),
             ])->condition('id', $edi_banner, '=')->execute();
           return $form;
         }
-        else {
-          $id = \Drupal::database()->update('brand_data')
-            ->fields([
-              'copy1' => $form_state->getValue('text_one'),
-              'copy2' => $form_state->getValue('text_two'),
-              'email' => $form_state->getValue('email'),
-              'phlone_brand' => $form_state->getValue('phlone_brand'),
-              'nit_brand' => $form_state->getValue('nit_brand'),
-              'brand' => $brand,
-              'created' => \Drupal::time()->getRequestTime(),
-            ])->condition('id', $edi_banner, '=')->execute();
-          return $form;
-        }
-      }
+   
+      
     }
     catch (Exception $e) {
       \Drupal::logger('ABI-INBEV event insert')->info("event insert config" . print_r($e, 1));
@@ -455,8 +423,8 @@ class BannerForm extends ConfigFormBase {
     $id = 0;
 
     foreach ($respu as $try) {
-      $delete    = Url::fromUserInput('/admin/banner/events?delete_id=' . $try->id);
-      $edit      = Url::fromUserInput('/admin/banner/events?id_banner=' . $try->id);
+      $delete    = Url::fromUserInput('/admin/banner/brand?delete_id=' . $try->id);
+      $edit      = Url::fromUserInput('/admin/banner/brand?id_banner=' . $try->id);
       $rows[$id] = [
         $try->url_banner,
         $try->copy1,
